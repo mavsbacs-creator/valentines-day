@@ -108,34 +108,6 @@ button:hover {
   }
 }
 
-/* LYRIC BACKGROUND */
-.lyrics {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.lyric-line {
-  position: absolute;
-  font-size: 2.6rem;
-  font-weight: 500;
-  color: rgba(176, 48, 96, 0.25);
-  opacity: 0;
-  text-align: center;
-  animation: lyricFade 7s ease-in-out forwards;
-}
-
-@keyframes lyricFade {
-  0% { opacity: 0; transform: translateY(20px); }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-20px); }
-}
-
 .final {
   font-size: 2.9rem;
 }
@@ -144,7 +116,7 @@ button:hover {
 
 <body>
 
-<!-- Music (Youth – Daughter) -->
+<!-- Music (Youth – Daughter via YouTube) -->
 <iframe
   id="music"
   src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
@@ -152,7 +124,6 @@ button:hover {
   style="display:none">
 </iframe>
 
-<div class="lyrics" id="lyrics"></div>
 <div class="hearts" id="hearts"></div>
 
 <!-- SCREENS -->
@@ -216,27 +187,6 @@ function spawnHeart(big = false) {
 setInterval(() => {
   if (!intense) spawnHeart(false);
 }, 900);
-
-/* AMBIENT LYRIC EFFECT (NOT REAL LYRICS) */
-const lyricPhrases = [
-  "you feel like home",
-  "this feels like us",
-  "stay right here",
-  "every moment feels lighter",
-  "i'd choose you every time",
-  "you make everything softer"
-];
-
-setInterval(() => {
-  const line = document.createElement('div');
-  line.className = 'lyric-line';
-  line.innerText = lyricPhrases[Math.floor(Math.random() * lyricPhrases.length)];
-  line.style.top = '50%';
-  line.style.left = '50%';
-  line.style.transform = 'translate(-50%, -50%)';
-  document.getElementById('lyrics').appendChild(line);
-  setTimeout(() => line.remove(), 7000);
-}, 3000);
 
 /* YES CLICK */
 function celebrate() {
