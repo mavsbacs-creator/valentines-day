@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #ffdee9, #fff1f5);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(20px);
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 15px;
+      color: #b03060;
+    }
+
+    p {
+      font-size: 1.1rem;
+      max-width: 500px;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 30px;
+      background: #ff5c8a;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 25px rgba(255, 92, 138, 0.4);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(255, 92, 138, 0.5);
+    }
+
+    .hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 92, 138, 0.3);
+      font-size: 20px;
+      animation: float 8s linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(100vh) scale(1);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      to {
+        transform: translateY(-10vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    .yes {
+      background: #ff5c8a;
+    }
+
+    .final {
+      font-size: 2.5rem;
+      color: #b03060;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts" id="hearts"></div>
+
+  <!-- SCREEN 1 -->
+  <div class="screen active">
+    <h1>Hey you ❤️</h1>
+    <p>
+      I made this just for you.
+      <br><br>
+      Take a second… and tap the button.
+    </p>
+    <button onclick="next()">Start</button>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div class="screen">
+    <h1>Just a little note</h1>
+    <p>
+      You make everything better just by being you.
+      <br><br>
+      Every laugh, every moment, every memory.
+    </p>
+    <button onclick="next()">Next</button>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div class="screen">
+    <h1>One more thing</h1>
+    <p>
+      I couldn’t imagine this day without you,
+      and honestly… I don’t want to.
+    </p>
+    <button onclick="next()">Okay ❤️</button>
+  </div>
+
+  <!-- FINAL -->
+  <div class="screen">
+    <h1 class="final">Will you be my Valentine? 💘</h1>
+    <button class="yes" onclick="celebrate()">Yes</button>
+  </div>
+
+  <script>
+    const screens = document.querySelectorAll('.screen');
+    let index = 0;
+
+    function next() {
+      screens[index].classList.remove('active');
+      index++;
+      screens[index].classList.add('active');
+    }
+
+    function celebrate() {
+      alert("❤️ Best answer ever ❤️");
+    }
+
+    // floating hearts
+    const heartContainer = document.getElementById('hearts');
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerText = '♥';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = 14 + Math.random() * 20 + 'px';
+      heart.style.animationDuration = 6 + Math.random() * 4 + 's';
+      heartContainer.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 10000);
+    }, 400);
+  </script>
+
+</body>
+</html>
