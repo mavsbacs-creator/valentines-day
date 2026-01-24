@@ -1,222 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>For You ❤️</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ffdee9, #fff1f5);
-      overflow: hidden;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffccd5, #fff0f3);
+  overflow: hidden;
+}
 
-    .screen {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
 
-    .screen.active {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
 
-    h1 {
-      font-size: 2.4rem;
-      color: #b03060;
-      margin-bottom: 15px;
-    }
+h1 {
+  font-size: 2.6rem;
+  color: #b03060;
+  margin-bottom: 15px;
+}
 
-    p {
-      font-size: 1.1rem;
-      color: #444;
-      max-width: 500px;
-      line-height: 1.6;
-    }
+p {
+  font-size: 1.15rem;
+  color: #444;
+  max-width: 520px;
+  line-height: 1.7;
+}
 
-    button {
-      margin-top: 30px;
-      padding: 14px 34px;
-      border: none;
-      border-radius: 40px;
-      background: #ff5c8a;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      box-shadow: 0 12px 30px rgba(255, 92, 138, 0.45);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
+button {
+  margin-top: 35px;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 50px;
+  background: #ff4d6d;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 15px 40px rgba(255, 77, 109, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 36px rgba(255, 92, 138, 0.6);
-    }
+button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 22px 50px rgba(255, 77, 109, 0.65);
+}
 
-    .pulse {
-      animation: pulse 1.5s infinite;
-    }
+.pulse {
+  animation: pulse 1.4s infinite;
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
 
-    .shake {
-      animation: shake 0.5s;
-    }
+.shake {
+  animation: shake 0.6s;
+}
 
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      50% { transform: translateX(6px); }
-      75% { transform: translateX(-6px); }
-      100% { transform: translateX(0); }
-    }
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+  100% { transform: translateX(0); }
+}
 
-    .hearts {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
+.hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
-    .heart {
-      position: absolute;
-      color: rgba(255, 92, 138, 0.3);
-      animation: float 8s linear infinite;
-    }
+.heart {
+  position: absolute;
+  color: rgba(255, 77, 109, 0.6);
+  animation: float linear forwards;
+}
 
-    @keyframes float {
-      from {
-        transform: translateY(100vh) scale(1);
-        opacity: 0;
-      }
-      10% { opacity: 1; }
-      to {
-        transform: translateY(-10vh) scale(1.4);
-        opacity: 0;
-      }
-    }
+@keyframes float {
+  from {
+    transform: translateY(110vh) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  to {
+    transform: translateY(-10vh) scale(1.6);
+    opacity: 0;
+  }
+}
 
-    .final {
-      font-size: 2.6rem;
-    }
-  </style>
+.final {
+  font-size: 2.8rem;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="hearts" id="hearts"></div>
+<!-- Hidden YouTube music (Youth by Daughter) -->
+<iframe id="music"
+  src="https://www.youtube.com/embed/VEpMj-tqixs?autoplay=1&mute=1&loop=1&playlist=VEpMj-tqixs"
+  allow="autoplay"
+  style="display:none">
+</iframe>
 
-  <!-- SCREEN 1 -->
-  <div class="screen active">
-    <h1>Hey you ❤️</h1>
-    <p>
-      I made this just for you.
-      <br><br>
-      Take a second… and tap the button.
-    </p>
-    <button onclick="next()">Start</button>
-  </div>
+<div class="hearts" id="hearts"></div>
 
-  <!-- SCREEN 2 -->
-  <div class="screen">
-    <h1>A little note</h1>
-    <p>
-      You have a way of making everything feel lighter,
-      happier, and better just by being there.
-    </p>
-    <button onclick="next()">Next</button>
-  </div>
+<!-- SCREEN 1 -->
+<div class="screen active">
+  <h1>Hey you ❤️</h1>
+  <p>
+    I made this just for you.
+    <br><br>
+    Take a breath… and press start.
+  </p>
+  <button onclick="startExperience()">Start</button>
+</div>
 
-  <!-- SCREEN 3 -->
-  <div class="screen">
-    <h1>One more thing</h1>
-    <p>
-      I couldn’t imagine today without you —
-      and honestly, I don’t want to.
-    </p>
-    <button onclick="next()">Okay ❤️</button>
-  </div>
+<!-- SCREEN 2 -->
+<div class="screen">
+  <h1>A little truth</h1>
+  <p>
+    You mean more to me than I ever really know how to say.
+    You make everything softer, warmer, better.
+  </p>
+  <button onclick="next()">Next</button>
+</div>
 
-  <!-- QUESTION -->
-  <div class="screen">
-    <h1 class="final">Will you be my Valentine? 💘</h1>
-    <button class="pulse" onclick="celebrate()">Yes</button>
-  </div>
+<!-- SCREEN 3 -->
+<div class="screen">
+  <h1>One more thing</h1>
+  <p>
+    I don’t just like being with you —
+    I feel right with you.
+  </p>
+  <button onclick="next()">Okay ❤️</button>
+</div>
 
-  <!-- FINAL SCREEN -->
-  <div class="screen">
-    <h1 class="final">You just made my whole day ❤️</h1>
-    <p>
-      Thank you for being you.
-      <br><br>
-      I can’t wait to make more memories together.
-    </p>
-  </div>
+<!-- QUESTION -->
+<div class="screen">
+  <h1 class="final">Will you be my Valentine? 💘</h1>
+  <button class="pulse" onclick="celebrate()">Yes</button>
+</div>
 
-  <script>
-    const screens = document.querySelectorAll('.screen');
-    let index = 0;
+<!-- FINAL -->
+<div class="screen">
+  <h1 class="final">You chose me ❤️</h1>
+  <p>
+    And I’ll choose you,
+    every time.
+  </p>
+</div>
 
-    function next() {
-      screens[index].classList.remove('active');
-      index++;
-      screens[index].classList.add('active');
-    }
+<script>
+const screens = document.querySelectorAll('.screen');
+let index = 0;
 
-    function celebrate() {
-      document.body.classList.add('shake');
+function next() {
+  screens[index].classList.remove('active');
+  index++;
+  screens[index].classList.add('active');
+}
 
-      // heart explosion
-      for (let i = 0; i < 50; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerText = '♥';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = 18 + Math.random() * 30 + 'px';
-        heart.style.animationDuration = '2s';
-        heart.style.color = 'rgba(255,92,138,0.8)';
-        document.getElementById('hearts').appendChild(heart);
-        setTimeout(() => heart.remove(), 2000);
-      }
+function startExperience() {
+  // unmute music after interaction
+  const music = document.getElementById('music');
+  music.src = music.src.replace('mute=1', 'mute=0');
+  next();
+}
 
-      setTimeout(() => {
-        document.body.classList.remove('shake');
-        next();
-      }, 600);
-    }
+// CONSTANT HEART FLOOD
+function spawnHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.innerText = '♥';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.fontSize = 14 + Math.random() * 26 + 'px';
+  heart.style.animationDuration = 4 + Math.random() * 4 + 's';
+  document.getElementById('hearts').appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}
 
-    // background floating hearts
-    setInterval(() => {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerText = '♥';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = 12 + Math.random() * 18 + 'px';
-      heart.style.animationDuration = 6 + Math.random() * 4 + 's';
-      document.getElementById('hearts').appendChild(heart);
-      setTimeout(() => heart.remove(), 10000);
-    }, 450);
-  </script>
+// LOTS of hearts
+setInterval(() => {
+  for (let i = 0; i < 6; i++) spawnHeart();
+}, 180);
+
+function celebrate() {
+  document.body.classList.add('shake');
+
+  // MASSIVE heart explosion
+  for (let i = 0; i < 120; i++) {
+    spawnHeart();
+  }
+
+  setTimeout(() => {
+    document.body.classList.remove('shake');
+    next();
+  }, 800);
+}
+</script>
 
 </body>
 </html>
