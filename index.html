@@ -31,6 +31,7 @@ body {
   pointer-events: none;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
+  z-index: 2;
 }
 
 .screen.active {
@@ -78,12 +79,13 @@ button:hover {
   100% { transform: scale(1); }
 }
 
-/* HEARTS (ONLY USED AFTER YES) */
+/* HEARTS */
 .hearts {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  z-index: 1;
 }
 
 .heart {
@@ -104,6 +106,32 @@ button:hover {
   }
 }
 
+/* LYRIC STYLE BACKGROUND */
+.lyrics {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.lyric-line {
+  position: absolute;
+  font-size: 2rem;
+  color: rgba(176, 48, 96, 0.18);
+  opacity: 0;
+  animation: lyricFade 6s infinite;
+}
+
+@keyframes lyricFade {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
 .final {
   font-size: 2.9rem;
 }
@@ -112,7 +140,7 @@ button:hover {
 
 <body>
 
-<!-- Hidden YouTube player (Youth - Daughter) -->
+<!-- Music -->
 <iframe
   id="music"
   src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
@@ -120,23 +148,20 @@ button:hover {
   style="display:none">
 </iframe>
 
+<div class="lyrics" id="lyrics"></div>
 <div class="hearts" id="hearts"></div>
 
 <div class="screen active">
   <h1>Hey you ❤️</h1>
-  <p>
-    I made this just for you.
-    <br><br>
-    Take a breath… and press start.
-  </p>
+  <p> I made this just for you. </p>
   <button onclick="next()">Start</button>
 </div>
 
 <div class="screen">
   <h1>A little truth</h1>
   <p>
-    You make everything feel warmer,
-    happier, and more meaningful.
+    You make everything feel softer,
+    warmer, and more meaningful.
   </p>
   <button onclick="next()">Next</button>
 </div>
@@ -157,15 +182,13 @@ button:hover {
 
 <div class="screen">
   <h1 class="final">You chose me ❤️</h1>
-  <p>
-    And I’ll choose you,
-    every time.
-  </p>
+  <p>And I’ll choose you, every time.</p>
 </div>
 
 <script>
 const screens = document.querySelectorAll('.screen');
 let index = 0;
+let intense = false;
 
 function next() {
   screens[index].classList.remove('active');
@@ -173,31 +196,55 @@ function next() {
   screens[index].classList.add('active');
 }
 
-function spawnHeart() {
+function spawnHeart(big = false) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = 18 + Math.random() * 30 + 'px';
-  heart.style.animationDuration = 3 + Math.random() * 4 + 's';
+  heart.style.fontSize = big
+    ? 40 + Math.random() * 40 + 'px'
+    : 16 + Math.random() * 18 + 'px';
+  heart.style.animationDuration = big
+    ? 2 + Math.random() * 2 + 's'
+    : 6 + Math.random() * 4 + 's';
   document.getElementById('hearts').appendChild(heart);
-  setTimeout(() => heart.remove(), 7000);
+  setTimeout(() => heart.remove(), 8000);
 }
 
+// Slow & steady hearts at start
+setInterval(() => {
+  if (!intense) spawnHeart(false);
+}, 800);
+
+// Lyric-style ambience (NOT real lyrics)
+const lyricPhrases = [
+  "—",
+  " ",
+  "♪",
+  " "
+];
+
+setInterval(() => {
+  const line = document.createElement('div');
+  line.className = 'lyric-line';
+  line.innerText = lyricPhrases[Math.floor(Math.random() * lyricPhrases.length)];
+  document.getElementById('lyrics').appendChild(line);
+  setTimeout(() => line.remove(), 6000);
+}, 2500);
+
 function celebrate() {
-  // start music (user interaction = allowed)
+  intense = true;
+
+  // start music
   const iframe = document.getElementById('music');
   iframe.src += "&autoplay=1";
 
-  // MASSIVE heart flood
-  for (let i = 0; i < 200; i++) {
-    spawnHeart();
-  }
+  // DROWN the screen
+  for (let i = 0; i < 200; i++) spawnHeart(true);
 
-  // keep hearts coming
   setInterval(() => {
-    for (let i = 0; i < 10; i++) spawnHeart();
-  }, 180);
+    for (let i = 0; i < 12; i++) spawnHeart(true);
+  }, 120);
 
   next();
 }
