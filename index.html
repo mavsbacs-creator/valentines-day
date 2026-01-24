@@ -78,6 +78,7 @@ button:hover {
   100% { transform: scale(1); }
 }
 
+/* HEARTS (ONLY USED AFTER YES) */
 .hearts {
   position: absolute;
   inset: 0;
@@ -87,7 +88,7 @@ button:hover {
 
 .heart {
   position: absolute;
-  color: rgba(255, 77, 109, 0.65);
+  color: rgba(255, 77, 109, 0.75);
   animation: float linear forwards;
 }
 
@@ -98,7 +99,7 @@ button:hover {
   }
   10% { opacity: 1; }
   to {
-    transform: translateY(-10vh) scale(1.7);
+    transform: translateY(-10vh) scale(1.8);
     opacity: 0;
   }
 }
@@ -111,20 +112,28 @@ button:hover {
 
 <body>
 
-<audio id="song" loop>
-  <source src="youth.mp3" type="audio/mpeg">
-</audio>
+<!-- Hidden YouTube player (Youth - Daughter) -->
+<iframe
+  id="music"
+  src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
+  allow="autoplay"
+  style="display:none">
+</iframe>
 
 <div class="hearts" id="hearts"></div>
 
 <div class="screen active">
   <h1>Hey you ❤️</h1>
-  <p> I made this just for you. </p>
-  <button onclick="start()">Start</button>
+  <p>
+    I made this just for you.
+    <br><br>
+    Take a breath… and press start.
+  </p>
+  <button onclick="next()">Start</button>
 </div>
 
 <div class="screen">
-  <h1>Just so you know</h1>
+  <h1>A little truth</h1>
   <p>
     You make everything feel warmer,
     happier, and more meaningful.
@@ -133,10 +142,10 @@ button:hover {
 </div>
 
 <div class="screen">
-  <h1>One last thing</h1>
+  <h1>One more thing</h1>
   <p>
-    I wouldn’t want to spend this day
-    with anyone else.
+    I don’t just like being with you —
+    I feel right with you.
   </p>
   <button onclick="next()">Okay ❤️</button>
 </div>
@@ -148,7 +157,10 @@ button:hover {
 
 <div class="screen">
   <h1 class="final">You chose me ❤️</h1>
-  <p>And I’ll choose you, every time.</p>
+  <p>
+    And I’ll choose you,
+    every time.
+  </p>
 </div>
 
 <script>
@@ -161,29 +173,32 @@ function next() {
   screens[index].classList.add('active');
 }
 
-function start() {
-  document.getElementById('song').play();
-  next();
-}
-
-// INSANE HEART FLOOD
 function spawnHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = 16 + Math.random() * 28 + 'px';
+  heart.style.fontSize = 18 + Math.random() * 30 + 'px';
   heart.style.animationDuration = 3 + Math.random() * 4 + 's';
   document.getElementById('hearts').appendChild(heart);
   setTimeout(() => heart.remove(), 7000);
 }
 
-setInterval(() => {
-  for (let i = 0; i < 8; i++) spawnHeart();
-}, 150);
-
 function celebrate() {
-  for (let i = 0; i < 150; i++) spawnHeart();
+  // start music (user interaction = allowed)
+  const iframe = document.getElementById('music');
+  iframe.src += "&autoplay=1";
+
+  // MASSIVE heart flood
+  for (let i = 0; i < 200; i++) {
+    spawnHeart();
+  }
+
+  // keep hearts coming
+  setInterval(() => {
+    for (let i = 0; i < 10; i++) spawnHeart();
+  }, 180);
+
   next();
 }
 </script>
