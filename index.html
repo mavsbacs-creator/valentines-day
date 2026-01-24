@@ -18,6 +18,7 @@ body {
   overflow: hidden;
 }
 
+/* SCREENS */
 .screen {
   position: absolute;
   inset: 0;
@@ -25,13 +26,13 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px;
   text-align: center;
+  padding: 30px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
-  z-index: 2;
+  z-index: 3;
 }
 
 .screen.active {
@@ -47,11 +48,12 @@ h1 {
 
 p {
   font-size: 1.15rem;
-  color: #444;
   max-width: 520px;
+  color: #444;
   line-height: 1.7;
 }
 
+/* BUTTONS */
 button {
   margin-top: 35px;
   padding: 16px 42px;
@@ -85,18 +87,18 @@ button:hover {
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1;
+  z-index: 2;
 }
 
 .heart {
   position: absolute;
-  color: rgba(255, 77, 109, 0.75);
+  color: rgba(255, 77, 109, 0.8);
   animation: float linear forwards;
 }
 
 @keyframes float {
   from {
-    transform: translateY(110vh) scale(0.8);
+    transform: translateY(110vh) scale(0.7);
     opacity: 0;
   }
   10% { opacity: 1; }
@@ -106,23 +108,25 @@ button:hover {
   }
 }
 
-/* LYRIC STYLE BACKGROUND */
+/* LYRIC BACKGROUND */
 .lyrics {
   position: absolute;
   inset: 0;
+  z-index: 1;
+  pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 0;
-  pointer-events: none;
 }
 
 .lyric-line {
   position: absolute;
-  font-size: 2rem;
-  color: rgba(176, 48, 96, 0.18);
+  font-size: 2.6rem;
+  font-weight: 500;
+  color: rgba(176, 48, 96, 0.25);
   opacity: 0;
-  animation: lyricFade 6s infinite;
+  text-align: center;
+  animation: lyricFade 7s ease-in-out forwards;
 }
 
 @keyframes lyricFade {
@@ -140,7 +144,7 @@ button:hover {
 
 <body>
 
-<!-- Music -->
+<!-- Music (Youth – Daughter) -->
 <iframe
   id="music"
   src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
@@ -151,27 +155,22 @@ button:hover {
 <div class="lyrics" id="lyrics"></div>
 <div class="hearts" id="hearts"></div>
 
+<!-- SCREENS -->
 <div class="screen active">
   <h1>Hey you ❤️</h1>
-  <p> I made this just for you. </p>
+  <p>I made this just for you.</p>
   <button onclick="next()">Start</button>
 </div>
 
 <div class="screen">
   <h1>A little truth</h1>
-  <p>
-    You make everything feel softer,
-    warmer, and more meaningful.
-  </p>
+  <p>You make everything feel softer, warmer, and more meaningful.</p>
   <button onclick="next()">Next</button>
 </div>
 
 <div class="screen">
   <h1>One more thing</h1>
-  <p>
-    I don’t just like being with you —
-    I feel right with you.
-  </p>
+  <p>I don’t just like being with you — I feel right with you.</p>
   <button onclick="next()">Okay ❤️</button>
 </div>
 
@@ -190,48 +189,56 @@ const screens = document.querySelectorAll('.screen');
 let index = 0;
 let intense = false;
 
+/* SCREEN FLOW */
 function next() {
   screens[index].classList.remove('active');
   index++;
   screens[index].classList.add('active');
 }
 
+/* HEART SPAWN */
 function spawnHeart(big = false) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
   heart.style.left = Math.random() * 100 + 'vw';
   heart.style.fontSize = big
-    ? 40 + Math.random() * 40 + 'px'
+    ? 42 + Math.random() * 42 + 'px'
     : 16 + Math.random() * 18 + 'px';
   heart.style.animationDuration = big
     ? 2 + Math.random() * 2 + 's'
-    : 6 + Math.random() * 4 + 's';
+    : 7 + Math.random() * 4 + 's';
   document.getElementById('hearts').appendChild(heart);
   setTimeout(() => heart.remove(), 8000);
 }
 
-// Slow & steady hearts at start
+/* SLOW HEARTS BEFORE YES */
 setInterval(() => {
   if (!intense) spawnHeart(false);
-}, 800);
+}, 900);
 
-// Lyric-style ambience (NOT real lyrics)
+/* AMBIENT LYRIC EFFECT (NOT REAL LYRICS) */
 const lyricPhrases = [
-  "—",
-  " ",
-  "♪",
-  " "
+  "you feel like home",
+  "this feels like us",
+  "stay right here",
+  "every moment feels lighter",
+  "i'd choose you every time",
+  "you make everything softer"
 ];
 
 setInterval(() => {
   const line = document.createElement('div');
   line.className = 'lyric-line';
   line.innerText = lyricPhrases[Math.floor(Math.random() * lyricPhrases.length)];
+  line.style.top = '50%';
+  line.style.left = '50%';
+  line.style.transform = 'translate(-50%, -50%)';
   document.getElementById('lyrics').appendChild(line);
-  setTimeout(() => line.remove(), 6000);
-}, 2500);
+  setTimeout(() => line.remove(), 7000);
+}, 3000);
 
+/* YES CLICK */
 function celebrate() {
   intense = true;
 
@@ -239,11 +246,11 @@ function celebrate() {
   const iframe = document.getElementById('music');
   iframe.src += "&autoplay=1";
 
-  // DROWN the screen
-  for (let i = 0; i < 200; i++) spawnHeart(true);
+  // HEART TSUNAMI
+  for (let i = 0; i < 250; i++) spawnHeart(true);
 
   setInterval(() => {
-    for (let i = 0; i < 12; i++) spawnHeart(true);
+    for (let i = 0; i < 14; i++) spawnHeart(true);
   }, 120);
 
   next();
