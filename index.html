@@ -29,7 +29,7 @@ body {
   text-align: center;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(30px);
+  transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
 }
 
@@ -42,7 +42,6 @@ body {
 h1 {
   font-size: 2.6rem;
   color: #b03060;
-  margin-bottom: 15px;
 }
 
 p {
@@ -54,20 +53,19 @@ p {
 
 button {
   margin-top: 35px;
-  padding: 15px 40px;
+  padding: 16px 42px;
   border: none;
   border-radius: 50px;
   background: #ff4d6d;
   color: white;
   font-size: 1.1rem;
   cursor: pointer;
-  box-shadow: 0 15px 40px rgba(255, 77, 109, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 18px 45px rgba(255, 77, 109, 0.6);
+  transition: transform 0.3s ease;
 }
 
 button:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 22px 50px rgba(255, 77, 109, 0.65);
+  transform: scale(1.08);
 }
 
 .pulse {
@@ -76,21 +74,8 @@ button:hover {
 
 @keyframes pulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.12); }
+  50% { transform: scale(1.15); }
   100% { transform: scale(1); }
-}
-
-.shake {
-  animation: shake 0.6s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-8px); }
-  80% { transform: translateX(8px); }
-  100% { transform: translateX(0); }
 }
 
 .hearts {
@@ -102,7 +87,7 @@ button:hover {
 
 .heart {
   position: absolute;
-  color: rgba(255, 77, 109, 0.6);
+  color: rgba(255, 77, 109, 0.65);
   animation: float linear forwards;
 }
 
@@ -113,72 +98,57 @@ button:hover {
   }
   10% { opacity: 1; }
   to {
-    transform: translateY(-10vh) scale(1.6);
+    transform: translateY(-10vh) scale(1.7);
     opacity: 0;
   }
 }
 
 .final {
-  font-size: 2.8rem;
+  font-size: 2.9rem;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Hidden YouTube music (Youth by Daughter) -->
-<iframe id="music"
-  src="https://www.youtube.com/embed/VEpMj-tqixs?autoplay=1&mute=1&loop=1&playlist=VEpMj-tqixs"
-  allow="autoplay"
-  style="display:none">
-</iframe>
+<audio id="song" loop>
+  <source src="youth.mp3" type="audio/mpeg">
+</audio>
 
 <div class="hearts" id="hearts"></div>
 
-<!-- SCREEN 1 -->
 <div class="screen active">
   <h1>Hey you ❤️</h1>
-  <p>
-    I made this just for you.
-    <br><br>
-    Take a breath… and press start.
-  </p>
-  <button onclick="startExperience()">Start</button>
+  <p> I made this just for you. </p>
+  <button onclick="start()">Start</button>
 </div>
 
-<!-- SCREEN 2 -->
 <div class="screen">
-  <h1>A little truth</h1>
+  <h1>Just so you know</h1>
   <p>
-    You mean more to me than I ever really know how to say.
-    You make everything softer, warmer, better.
+    You make everything feel warmer,
+    happier, and more meaningful.
   </p>
   <button onclick="next()">Next</button>
 </div>
 
-<!-- SCREEN 3 -->
 <div class="screen">
-  <h1>One more thing</h1>
+  <h1>One last thing</h1>
   <p>
-    I don’t just like being with you —
-    I feel right with you.
+    I wouldn’t want to spend this day
+    with anyone else.
   </p>
   <button onclick="next()">Okay ❤️</button>
 </div>
 
-<!-- QUESTION -->
 <div class="screen">
   <h1 class="final">Will you be my Valentine? 💘</h1>
   <button class="pulse" onclick="celebrate()">Yes</button>
 </div>
 
-<!-- FINAL -->
 <div class="screen">
   <h1 class="final">You chose me ❤️</h1>
-  <p>
-    And I’ll choose you,
-    every time.
-  </p>
+  <p>And I’ll choose you, every time.</p>
 </div>
 
 <script>
@@ -191,42 +161,30 @@ function next() {
   screens[index].classList.add('active');
 }
 
-function startExperience() {
-  // unmute music after interaction
-  const music = document.getElementById('music');
-  music.src = music.src.replace('mute=1', 'mute=0');
+function start() {
+  document.getElementById('song').play();
   next();
 }
 
-// CONSTANT HEART FLOOD
+// INSANE HEART FLOOD
 function spawnHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = 14 + Math.random() * 26 + 'px';
-  heart.style.animationDuration = 4 + Math.random() * 4 + 's';
+  heart.style.fontSize = 16 + Math.random() * 28 + 'px';
+  heart.style.animationDuration = 3 + Math.random() * 4 + 's';
   document.getElementById('hearts').appendChild(heart);
-  setTimeout(() => heart.remove(), 8000);
+  setTimeout(() => heart.remove(), 7000);
 }
 
-// LOTS of hearts
 setInterval(() => {
-  for (let i = 0; i < 6; i++) spawnHeart();
-}, 180);
+  for (let i = 0; i < 8; i++) spawnHeart();
+}, 150);
 
 function celebrate() {
-  document.body.classList.add('shake');
-
-  // MASSIVE heart explosion
-  for (let i = 0; i < 120; i++) {
-    spawnHeart();
-  }
-
-  setTimeout(() => {
-    document.body.classList.remove('shake');
-    next();
-  }, 800);
+  for (let i = 0; i < 150; i++) spawnHeart();
+  next();
 }
 </script>
 
