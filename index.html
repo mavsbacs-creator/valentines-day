@@ -93,20 +93,17 @@ button:hover { transform: scale(1.08); }
   pointer-events: none;
 }
 
-/* Good choice popup (matches website style now) */
+/* Good choice text (plain header style, just bigger) */
 #goodChoice {
   position: absolute;
   top: 40%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  font-size: 2.2rem;
-  color: white;
-  background: linear-gradient(135deg,#ff6699,#ff4d6d);
-  padding: 30px 50px;
-  border-radius: 50px;
+  transform: translate(-50%, -50%);
+  font-size: 3rem; /* bigger than normal headers */
+  color: #b03060;
+  font-weight: bold;
   opacity: 0;
   z-index: 6;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -204,8 +201,8 @@ function spawnHeart() {
   heart.className = 'heart';
   heart.innerText = '❤️';
   heart.style.left = Math.random() * 90 + 'vw';
-  heart.style.fontSize = (24 + Math.random()*28) + 'px'; // slightly bigger
-  heart.style.animationDuration = (1.5 + Math.random()*2) + 's'; // faster
+  heart.style.fontSize = (24 + Math.random()*28) + 'px';
+  heart.style.animationDuration = (1.5 + Math.random()*2) + 's';
   document.getElementById('hearts').appendChild(heart);
   setTimeout(() => heart.remove(), 4000);
 }
@@ -224,12 +221,12 @@ function celebrate() {
 
   // Intensify hearts
   clearInterval(heartInterval);
-  heartInterval = setInterval(spawnHeart, 120); // more frequent, more hearts
+  heartInterval = setInterval(spawnHeart, 120);
 
-  // Show "Good choice ❤️" popup
+  // Show "Good choice ❤️" text (plain, big header style)
   const goodChoice = document.getElementById('goodChoice');
   goodChoice.style.opacity = 1;
-  goodChoice.style.transform = 'translate(-50%, -50%) scale(1.15)';
+  goodChoice.style.transform = 'translate(-50%, -50%) scale(1.1)';
   setTimeout(() => {
     goodChoice.style.opacity = 0;
     goodChoice.style.transform = 'translate(-50%, -50%) scale(1)';
@@ -239,8 +236,8 @@ function celebrate() {
   const scrollingText = document.getElementById('scrollingText');
   scrollingText.style.opacity = 1;
 
-  let pos = -50; // start below screen
-  const scrollSpeed = 0.08; // faster scroll
+  let pos = -50;
+  const scrollSpeed = 0.08;
   function scrollFrame() {
     pos += scrollSpeed;
     scrollingText.style.bottom = pos + '%';
