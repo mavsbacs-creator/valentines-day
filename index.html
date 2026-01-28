@@ -18,6 +18,7 @@ body {
   align-items: center;
 }
 
+/* Screens */
 .screen {
   position: absolute;
   inset: 0;
@@ -51,7 +52,7 @@ button {
   box-shadow: 0 10px 25px rgba(255,77,109,0.6);
   transition: transform 0.3s ease;
   position: relative;
-  z-index: 10; /* ensures button is clickable above hearts/message */
+  z-index: 10;
 }
 
 button:hover { transform: scale(1.08); }
@@ -89,7 +90,46 @@ button:hover { transform: scale(1.08); }
   transition: all 0.8s ease;
   z-index: 5;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  pointer-events: none; /* ensures buttons remain clickable */
+  pointer-events: none;
+}
+
+/* Good choice popup */
+#goodChoice {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+  color: #fff;
+  background: #ff4d6d;
+  padding: 30px 50px;
+  border-radius: 25px;
+  opacity: 0;
+  z-index: 6;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Star Wars-style scroll */
+#scrollingText {
+  position: absolute;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%) perspective(500px) rotateX(20deg);
+  font-size: 1.8rem;
+  color: white;
+  text-align: center;
+  max-width: 700px;
+  line-height: 2;
+  opacity: 0;
+  z-index: 4;
+  animation: scrollUp 60s linear forwards;
+}
+
+@keyframes scrollUp {
+  0% { bottom: -100%; opacity: 0; }
+  10% { opacity: 1; }
+  100% { bottom: 120%; opacity: 0; }
 }
 
 /* Ensure YouTube iframe doesn't block clicks */
@@ -99,6 +139,7 @@ button:hover { transform: scale(1.08); }
 
 <body>
 
+<!-- Screens -->
 <div class="screen active">
   <h1>Hey you ❤️</h1>
   <p>I made this just for you.</p>
@@ -124,6 +165,12 @@ button:hover { transform: scale(1.08); }
 
 <div id="message">Every moment with you feels like a song worth remembering. I love you ❤️</div>
 <div id="hearts"></div>
+<div id="goodChoice">Good choice ❤️</div>
+
+<!-- Star Wars-style scroll -->
+<div id="scrollingText">
+  From the first time I saw you, I knew that my world had changed forever. Every moment we spend together feels like the universe aligns just for us. Your laugh, your smile, your gentle presence — it fills me with a warmth I never knew I could feel. I want to walk beside you, hold your hand through every storm, celebrate every joy, and simply be there for you, every single day. You are my heart, my happiness, and my endless inspiration. Together, we create a love story I hope will last a lifetime. ❤️
+</div>
 
 <!-- YouTube Player for Youth by Daughter -->
 <iframe id="ytplayer"
@@ -136,6 +183,7 @@ button:hover { transform: scale(1.08); }
 <script>
 const screens = document.querySelectorAll('.screen');
 let index = 0;
+let heartInterval;
 
 function next() {
   screens[index].classList.remove('active');
@@ -156,20 +204,36 @@ function spawnHeart() {
 }
 
 /* Slow hearts before Yes */
-let heartInterval = setInterval(spawnHeart, 900);
+heartInterval = setInterval(spawnHeart, 900);
 
+/* Celebrate: after clicking Yes */
 function celebrate() {
-  // Show message
+  // Show heartfelt message
   const message = document.getElementById('message');
   message.classList.add('show');
 
-  // Play music reliably
+  // Start music
   const yt = document.getElementById('ytplayer');
   yt.src += "&autoplay=1";
 
-  // Faster floating hearts
+  // Intensify hearts
   clearInterval(heartInterval);
-  heartInterval = setInterval(spawnHeart, 250);
+  heartInterval = setInterval(spawnHeart, 150); // faster, more hearts
+
+  // Show "Good choice ❤️" briefly
+  const goodChoice = document.getElementById('goodChoice');
+  goodChoice.style.opacity = 1;
+  goodChoice.style.transform = 'translate(-50%, -50%) scale(1.2)';
+  setTimeout(() => {
+    goodChoice.style.opacity = 0;
+    goodChoice.style.transform = 'translate(-50%, -50%) scale(1)';
+  }, 2000);
+
+  // Start scrolling text after a short delay
+  setTimeout(() => {
+    const scrollingText = document.getElementById('scrollingText');
+    scrollingText.style.opacity = 1;
+  }, 2500);
 
   next();
 }
