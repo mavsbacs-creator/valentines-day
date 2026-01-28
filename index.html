@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>Valentine Surprise ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 *{box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;}
@@ -27,12 +27,10 @@ button:hover{transform:scale(1.08);}
 </head>
 <body>
 
-<!-- Music -->
-<iframe id="music" src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1" allow="autoplay" style="display:none"></iframe>
-
+<!-- Hearts container -->
 <div class="hearts" id="hearts"></div>
 
-<!-- SCREENS -->
+<!-- Screens -->
 <div class="screen active">
   <h1>Hey you ❤️</h1>
   <p>I made this just for you.</p>
@@ -61,11 +59,15 @@ button:hover{transform:scale(1.08);}
   <p>And I’ll choose you every time.</p>
 </div>
 
+<!-- Embedded audio -->
+<audio id="music" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2023/03/03/audio_1b28f0bbf4.mp3?filename=soft-inspirational-background-7186.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-const screens = document.querySelectorAll('.screen');
-const heartsContainer = document.getElementById('hearts');
-let index = 0;
-let intenseInterval = null;
+const screens=document.querySelectorAll('.screen');
+const heartsContainer=document.getElementById('hearts');
+let index=0,intenseInterval=null;
 const messages=["I love you ❤️","You're beautiful","You mean so much to me","You make me smile","I'm lucky to have you","You’re amazing","My favorite person"];
 
 function next(){
@@ -95,25 +97,24 @@ function popHeart(e,heart){
   msg.style.left=e.clientX+'px';
   msg.style.top=e.clientY+'px';
   document.body.appendChild(msg);
-  setTimeout(()=>{heart.remove(); msg.remove();},800);
+  setTimeout(()=>{heart.remove();msg.remove();},800);
 }
 
 function celebrate(){
-  // start music
-  const iframe=document.getElementById('music');
-  iframe.src+="&autoplay=1";
+  // play audio
+  const audio=document.getElementById('music');
+  audio.currentTime=0;
+  audio.play();
 
-  // burst of hearts
+  // big burst
   for(let i=0;i<300;i++) spawnHeart();
 
   // continuous flood
-  intenseInterval=setInterval(()=>{
-    for(let i=0;i<16;i++) spawnHeart();
-  },120);
+  intenseInterval=setInterval(()=>{for(let i=0;i<16;i++) spawnHeart();},120);
 
   next();
 }
 </script>
+
 </body>
 </html>
-
