@@ -99,41 +99,41 @@ button:hover {
 
 @keyframes float {
   from {
-    transform: translateY(110vh) scale(0.8);
+    transform: translateY(110vh) scale(0.9);
     opacity: 0;
   }
   10% { opacity: 1; }
   to {
-    transform: translateY(-10vh) scale(1.6);
+    transform: translateY(-10vh) scale(1.7);
     opacity: 0;
   }
 }
 
-/* POP ANIMATION */
+/* POP */
 .pop {
-  animation: pop 0.4s ease forwards;
+  animation: pop 0.35s ease forwards;
 }
 
 @keyframes pop {
   0% { transform: scale(1); opacity: 1; }
-  60% { transform: scale(1.8); opacity: 0.9; }
+  60% { transform: scale(1.9); opacity: 0.9; }
   100% { transform: scale(0); opacity: 0; }
 }
 
-/* MESSAGE BURST */
+/* MESSAGE */
 .message {
   position: absolute;
   color: #b03060;
   font-size: 1.4rem;
   font-weight: 600;
-  animation: message 1.6s ease forwards;
+  animation: message 1.5s ease forwards;
   pointer-events: none;
 }
 
 @keyframes message {
   0% { opacity: 0; transform: translateY(0); }
   20% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-40px); }
+  100% { opacity: 0; transform: translateY(-45px); }
 }
 
 .final {
@@ -144,7 +144,7 @@ button:hover {
 
 <body>
 
-<!-- MUSIC -->
+<!-- MUSIC (plays after YES) -->
 <iframe
   id="music"
   src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
@@ -187,7 +187,7 @@ button:hover {
 const screens = document.querySelectorAll('.screen');
 const heartsContainer = document.getElementById('hearts');
 let index = 0;
-let intense = false;
+let intenseInterval = null;
 
 const messages = [
   "I love you ❤️",
@@ -206,28 +206,20 @@ function next() {
 }
 
 /* CREATE HEART */
-function spawnHeart(big = false) {
+function spawnHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
 
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = big
-    ? 40 + Math.random() * 40 + 'px'
-    : 22 + Math.random() * 20 + 'px';
-
-  heart.style.color = big
-    ? 'rgba(255, 60, 100, 0.9)'
-    : 'rgba(255, 90, 130, 0.75)';
-
-  heart.style.animationDuration = big
-    ? 2 + Math.random() * 2 + 's'
-    : 6 + Math.random() * 4 + 's';
+  heart.style.fontSize = 44 + Math.random() * 40 + 'px';
+  heart.style.color = 'rgba(255, 60, 100, 0.9)';
+  heart.style.animationDuration = 2 + Math.random() * 2 + 's';
 
   heart.onclick = (e) => popHeart(e, heart);
 
   heartsContainer.appendChild(heart);
-  setTimeout(() => heart.remove(), 9000);
+  setTimeout(() => heart.remove(), 8000);
 }
 
 /* POP HEART */
@@ -248,22 +240,18 @@ function popHeart(e, heart) {
   }, 800);
 }
 
-/* CALM HEARTS */
-setInterval(() => {
-  if (!intense) spawnHeart(false);
-}, 900);
-
-/* YES CLICK */
+/* YES CLICK — HEARTS START HERE */
 function celebrate() {
-  intense = true;
-
+  // start music
   const iframe = document.getElementById('music');
   iframe.src += "&autoplay=1";
 
-  for (let i = 0; i < 220; i++) spawnHeart(true);
+  // instant heart explosion
+  for (let i = 0; i < 300; i++) spawnHeart();
 
-  setInterval(() => {
-    for (let i = 0; i < 12; i++) spawnHeart(true);
+  // continuous heart flood
+  intenseInterval = setInterval(() => {
+    for (let i = 0; i < 16; i++) spawnHeart();
   }, 120);
 
   next();
