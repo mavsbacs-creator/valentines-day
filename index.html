@@ -2,127 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>Ultimate Valentine ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-* {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-}
-
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #ffccd5, #fff0f3);
-  overflow: hidden;
-}
-
-/* SCREENS */
-.screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 30px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(40px);
-  transition: opacity 1s ease, transform 1s ease;
-  z-index: 3;
-}
-
-.screen.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-h1 {
-  font-size: 2.6rem;
-  color: #b03060;
-}
-
-p {
-  font-size: 1.15rem;
-  max-width: 520px;
-  color: #444;
-  line-height: 1.7;
-}
-
-/* BUTTONS */
-button {
-  margin-top: 35px;
-  padding: 16px 42px;
-  border: none;
-  border-radius: 50px;
-  background: #ff4d6d;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 18px 45px rgba(255, 77, 109, 0.6);
-  transition: transform 0.3s ease;
-}
-
-button:hover {
-  transform: scale(1.08);
-}
-
-.pulse {
-  animation: pulse 1.4s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-/* HEARTS */
-.hearts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.heart {
-  position: absolute;
-  color: rgba(255, 77, 109, 0.8);
-  animation: float linear forwards;
-}
-
-@keyframes float {
-  from {
-    transform: translateY(110vh) scale(0.7);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  to {
-    transform: translateY(-10vh) scale(1.8);
-    opacity: 0;
-  }
-}
-
-.final {
-  font-size: 2.9rem;
-}
+/* ----------- GENERAL ----------- */
+*{box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;}
+body{margin:0;height:100vh;background:linear-gradient(135deg,#ffccd5,#fff0f3);overflow:hidden;cursor:default;}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px;opacity:0;pointer-events:none;transform:translateY(40px);transition:opacity 0.7s ease,transform 0.7s ease;z-index:3;}
+.screen.active{opacity:1;pointer-events:auto;transform:translateY(0);}
+h1{font-size:2.6rem;color:#b03060;}
+p{font-size:1.15rem;max-width:520px;color:#444;line-height:1.7;}
+button{margin-top:35px;padding:16px 42px;border:none;border-radius:50px;background:#ff4d6d;color:white;font-size:1.1rem;cursor:pointer;box-shadow:0 18px 45px rgba(255,77,109,0.6);transition:transform 0.3s ease;}
+button:hover{transform:scale(1.08);}
+.pulse{animation:pulse 1.4s infinite;}
+@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+/* ----------- HEARTS ----------- */
+.hearts{position:absolute;inset:0;pointer-events:auto;overflow:hidden;z-index:2;}
+.heart{position:absolute;cursor:pointer;animation:float linear forwards;user-select:none;}
+.heart.pre{color:rgba(255,150,170,0.6);font-size:18px;opacity:0.6;}
+.heart.post{color:rgba(255,50,90,0.9);opacity:0.9;}
+.heart.easter{color:#ffd700;font-size:50px;opacity:1;animation:float 2s linear forwards;}
+@keyframes float{0%{transform:translateY(110vh) scale(0.8);opacity:0;}10%{opacity:1;}100%{transform:translateY(-10vh) scale(1.5);opacity:0;}}
+.pop{animation:pop 0.35s ease forwards;}
+@keyframes pop{0%{transform:scale(1);opacity:1;}60%{transform:scale(2);opacity:0.9;}100%{transform:scale(0);opacity:0;}}
+.message{position:absolute;color:#b03060;font-size:1.4rem;font-weight:600;animation:message 1.5s ease forwards;pointer-events:none;}
+@keyframes message{0%{opacity:0;transform:translateY(0);}20%{opacity:1;}100%{opacity:0;transform:translateY(-45px);}}
+.final{font-size:2.9rem;}
+/* ----------- CONFETTI ----------- */
+.confetti{position:absolute;width:10px;height:10px;background:radial-gradient(circle,#ff4d6d,#ffb6c1);pointer-events:none;opacity:0.8;animation:confetti-fall linear forwards;}
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
 </style>
 </head>
-
 <body>
-
-<!-- Music (Youth – Daughter via YouTube) -->
-<iframe
-  id="music"
-  src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
-  allow="autoplay"
-  style="display:none">
-</iframe>
 
 <div class="hearts" id="hearts"></div>
 
@@ -135,13 +46,13 @@ button:hover {
 
 <div class="screen">
   <h1>A little truth</h1>
-  <p>You make everything feel softer, warmer, and more meaningful.</p>
+  <p>You make everything feel warmer.</p>
   <button onclick="next()">Next</button>
 </div>
 
 <div class="screen">
   <h1>One more thing</h1>
-  <p>I don’t just like being with you — I feel right with you.</p>
+  <p>I don’t just like you — I really care.</p>
   <button onclick="next()">Okay ❤️</button>
 </div>
 
@@ -152,60 +63,112 @@ button:hover {
 
 <div class="screen">
   <h1 class="final">You chose me ❤️</h1>
-  <p>And I’ll choose you, every time.</p>
+  <p>And I’ll choose you every time.</p>
 </div>
+
+<!-- Music -->
+<audio id="music">
+  <source src="https://cdn.pixabay.com/download/audio/2023/03/03/audio_1b28f0bbf4.mp3?filename=soft-inspirational-background-7186.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 const screens = document.querySelectorAll('.screen');
+const heartsContainer = document.getElementById('hearts');
 let index = 0;
-let intense = false;
+let intenseInterval = null;
+const messages = [
+  "I love you ❤️","You're beautiful","You mean so much to me","You make me smile","I'm lucky to have you","You’re amazing","My favorite person"
+];
 
-/* SCREEN FLOW */
-function next() {
+/* --------- SCREEN FLOW --------- */
+function next(){
   screens[index].classList.remove('active');
   index++;
   screens[index].classList.add('active');
 }
 
-/* HEART SPAWN */
-function spawnHeart(big = false) {
+/* --------- SPAWN HEART --------- */
+function spawnHeart(type='pre'){
   const heart = document.createElement('div');
-  heart.className = 'heart';
+  heart.className = 'heart ' + type;
   heart.innerText = '♥';
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = big
-    ? 42 + Math.random() * 42 + 'px'
-    : 16 + Math.random() * 18 + 'px';
-  heart.style.animationDuration = big
-    ? 2 + Math.random() * 2 + 's'
-    : 7 + Math.random() * 4 + 's';
-  document.getElementById('hearts').appendChild(heart);
-  setTimeout(() => heart.remove(), 8000);
+  heart.style.left = Math.random()*100 + 'vw';
+  if(type==='pre'){
+    heart.style.fontSize = 16 + Math.random()*12 + 'px';
+    heart.style.animationDuration = 2 + Math.random()*2 + 's';
+    heart.style.opacity = 0.7 + Math.random()*0.2;
+  } else if(type==='post'){
+    heart.style.fontSize = 40 + Math.random()*50 + 'px';
+    heart.style.animationDuration = 1.5 + Math.random()*1.5 + 's';
+  } else if(type==='easter'){
+    heart.style.fontSize = 50 + Math.random()*20 + 'px';
+    heart.style.color = '#ffd700';
+    heart.style.animationDuration = 1.5 + Math.random()*1 + 's';
+  }
+  heart.onclick = (e)=>popHeart(e, heart);
+  heartsContainer.appendChild(heart);
+  setTimeout(()=>heart.remove(), 8000);
 }
 
-/* SLOW HEARTS BEFORE YES */
-setInterval(() => {
-  if (!intense) spawnHeart(false);
-}, 900);
+/* --------- POP HEART --------- */
+function popHeart(e, heart){
+  heart.classList.add('pop');
+  const msg = document.createElement('div');
+  msg.className = 'message';
+  msg.innerText = messages[Math.floor(Math.random()*messages.length)];
+  msg.style.left = e.clientX + 'px';
+  msg.style.top = e.clientY + 'px';
+  document.body.appendChild(msg);
+  setTimeout(()=>{heart.remove(); msg.remove();}, 800);
+}
 
-/* YES CLICK */
-function celebrate() {
-  intense = true;
+/* --------- SLOW FLOW PRE-YES HEARTS --------- */
+let calmInterval = setInterval(()=>spawnHeart('pre'), 400); // faster flow
 
-  // start music
-  const iframe = document.getElementById('music');
-  iframe.src += "&autoplay=1";
+/* --------- CELEBRATE AFTER YES --------- */
+function celebrate(){
+  clearInterval(calmInterval); // stop pre hearts
 
-  // HEART TSUNAMI
-  for (let i = 0; i < 250; i++) spawnHeart(true);
+  // play music
+  const audio = document.getElementById('music');
+  audio.currentTime = 0;
+  audio.play();
 
-  setInterval(() => {
-    for (let i = 0; i < 14; i++) spawnHeart(true);
-  }, 120);
+  // burst of bold hearts
+  for(let i=0;i<300;i++) spawnHeart('post');
+
+  // continuous flood of bold hearts
+  intenseInterval = setInterval(()=>{for(let i=0;i<20;i++) spawnHeart('post');}, 120);
+
+  // spawn random easter hearts occasionally
+  setInterval(()=>{if(Math.random()<0.3) spawnHeart('easter');}, 800);
+
+  // click anywhere for secret message Easter eggs
+  document.body.addEventListener('click', (e)=>{
+    if(Math.random()<0.05){
+      const secret = document.createElement('div');
+      secret.className='message';
+      secret.innerText = "You're amazing 💖";
+      secret.style.left = e.clientX + 'px';
+      secret.style.top = e.clientY + 'px';
+      document.body.appendChild(secret);
+      setTimeout(()=>secret.remove(),1200);
+    }
+  });
+
+  // small confetti bursts
+  setInterval(()=>{
+    const confetti = document.createElement('div');
+    confetti.className='confetti';
+    confetti.style.left=Math.random()*100+'vw';
+    confetti.style.background=`radial-gradient(circle,${['#ff4d6d','#ffb6c1','#ffd700','#ff69b4'][Math.floor(Math.random()*4)]})`;
+    confetti.style.animationDuration=2+Math.random()*2+'s';
+    document.body.appendChild(confetti);
+    setTimeout(()=>confetti.remove(),3000);
+  },200);
 
   next();
 }
 </script>
-
 </body>
 </html>
