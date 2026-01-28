@@ -93,7 +93,7 @@ button:hover { transform: scale(1.08); }
   pointer-events: none;
 }
 
-/* Good choice popup */
+/* Good choice popup (matches website style now) */
 #goodChoice {
   position: absolute;
   top: 40%;
@@ -101,12 +101,12 @@ button:hover { transform: scale(1.08); }
   transform: translate(-50%, -50%) scale(1);
   font-size: 2.2rem;
   color: white;
-  background: linear-gradient(135deg,#ff4d6d,#ffb6c1);
+  background: linear-gradient(135deg,#ff6699,#ff4d6d);
   padding: 30px 50px;
-  border-radius: 25px;
+  border-radius: 50px;
   opacity: 0;
   z-index: 6;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -134,8 +134,8 @@ button:hover { transform: scale(1.08); }
   line-height: 2;
   color: white;
   opacity: 0;
-  transition: opacity 2s ease;
-  white-space: normal; /* flatten text for readability */
+  transition: opacity 1.5s ease;
+  white-space: normal;
 }
 
 #ytplayer { pointer-events: none; }
@@ -204,14 +204,14 @@ function spawnHeart() {
   heart.className = 'heart';
   heart.innerText = '❤️';
   heart.style.left = Math.random() * 90 + 'vw';
-  heart.style.fontSize = (24 + Math.random()*24) + 'px';
-  heart.style.animationDuration = (2 + Math.random()*3) + 's';
+  heart.style.fontSize = (24 + Math.random()*28) + 'px'; // slightly bigger
+  heart.style.animationDuration = (1.5 + Math.random()*2) + 's'; // faster
   document.getElementById('hearts').appendChild(heart);
   setTimeout(() => heart.remove(), 4000);
 }
 
 /* Slow hearts before Yes */
-heartInterval = setInterval(spawnHeart, 900);
+heartInterval = setInterval(spawnHeart, 800);
 
 /* Celebrate: after clicking Yes */
 function celebrate() {
@@ -224,9 +224,9 @@ function celebrate() {
 
   // Intensify hearts
   clearInterval(heartInterval);
-  heartInterval = setInterval(spawnHeart, 150);
+  heartInterval = setInterval(spawnHeart, 120); // more frequent, more hearts
 
-  // Show "Good choice ❤️" briefly with scale/fade
+  // Show "Good choice ❤️" popup
   const goodChoice = document.getElementById('goodChoice');
   goodChoice.style.opacity = 1;
   goodChoice.style.transform = 'translate(-50%, -50%) scale(1.15)';
@@ -240,8 +240,7 @@ function celebrate() {
   scrollingText.style.opacity = 1;
 
   let pos = -50; // start below screen
-  const scrollSpeed = 0.05; // adjust for faster scroll
-
+  const scrollSpeed = 0.08; // faster scroll
   function scrollFrame() {
     pos += scrollSpeed;
     scrollingText.style.bottom = pos + '%';
