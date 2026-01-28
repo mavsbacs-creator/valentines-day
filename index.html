@@ -67,4 +67,78 @@ button:hover{transform:scale(1.08);}
 </audio>
 
 <script>
-const screens = document.qu
+const screens = document.querySelectorAll('.screen');
+const heartsContainer = document.getElementById('hearts');
+let index = 0;
+let intenseInterval = null;
+
+/* Messages for pop hearts */
+const messages = [
+  "I love you ❤️",
+  "You're beautiful",
+  "You mean so much to me",
+  "You make me smile",
+  "I'm lucky to have you",
+  "You’re amazing",
+  "My favorite person"
+];
+
+/* ------------------- SCREEN FLOW ------------------- */
+function next(){
+  screens[index].classList.remove('active');
+  index++;
+  screens[index].classList.add('active');
+}
+
+/* ------------------- SPAWN HEART ------------------- */
+function spawnHeart(type='pre'){
+  const heart = document.createElement('div');
+  heart.className = 'heart ' + type;
+  heart.innerText = '♥';
+  heart.style.left = Math.random()*100 + 'vw';
+  if(type==='pre'){
+    heart.style.fontSize = 16 + Math.random()*12 + 'px';
+    heart.style.animationDuration = 3 + Math.random()*2 + 's';
+  } else {
+    heart.style.fontSize = 40 + Math.random()*40 + 'px';
+    heart.style.animationDuration = 2 + Math.random()*1 + 's';
+  }
+  heart.onclick = (e) => popHeart(e, heart);
+  heartsContainer.appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}
+
+/* ------------------- POP HEART ------------------- */
+function popHeart(e, heart){
+  heart.classList.add('pop');
+  const msg = document.createElement('div');
+  msg.className = 'message';
+  msg.innerText = messages[Math.floor(Math.random()*messages.length)];
+  msg.style.left = e.clientX + 'px';
+  msg.style.top = e.clientY + 'px';
+  document.body.appendChild(msg);
+  setTimeout(()=>{heart.remove(); msg.remove();}, 800);
+}
+
+/* ------------------- SLOW FLOW HEARTS BEFORE YES ------------------- */
+let calmInterval = setInterval(()=>spawnHeart('pre'), 500); // faster flow
+
+/* ------------------- CELEBRATE AFTER YES ------------------- */
+function celebrate(){
+  clearInterval(calmInterval); // stop pre hearts
+
+  const audio = document.getElementById('music');
+  audio.currentTime = 0;
+  audio.play();
+
+  // instant burst of big hearts
+  for(let i=0;i<300;i++) spawnHeart('post');
+
+  // continuous flood of post hearts
+  intenseInterval = setInterval(()=>{for(let i=0;i<16;i++) spawnHeart('post');}, 120);
+
+  next();
+}
+</script>
+</body>
+</html>
