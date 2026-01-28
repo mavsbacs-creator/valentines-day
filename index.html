@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ultimate Valentine ❤️</title>
+<title>Valentine Surprise ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 /* ----------- GENERAL ----------- */
@@ -22,15 +22,34 @@ button:hover{transform:scale(1.08);}
 .heart.pre{color:rgba(255,150,170,0.6);font-size:18px;opacity:0.6;}
 .heart.post{color:rgba(255,50,90,0.9);opacity:0.9;}
 .heart.easter{color:#ffd700;font-size:50px;opacity:1;animation:float 2s linear forwards;}
+/* FLOAT ANIMATION */
 @keyframes float{0%{transform:translateY(110vh) scale(0.8);opacity:0;}10%{opacity:1;}100%{transform:translateY(-10vh) scale(1.5);opacity:0;}}
 .pop{animation:pop 0.35s ease forwards;}
 @keyframes pop{0%{transform:scale(1);opacity:1;}60%{transform:scale(2);opacity:0.9;}100%{transform:scale(0);opacity:0;}}
-.message{position:absolute;color:#b03060;font-size:1.4rem;font-weight:600;animation:message 1.5s ease forwards;pointer-events:none;}
-@keyframes message{0%{opacity:0;transform:translateY(0);}20%{opacity:1;}100%{opacity:0;transform:translateY(-45px);}}
-.final{font-size:2.9rem;}
+/* ----------- BALLOON HEART MESSAGE ----------- */
+.balloon{
+  position:absolute;
+  font-size:28px;
+  background:linear-gradient(135deg,#ff4d6d,#ffb6c1);
+  color:white;
+  padding:12px 20px;
+  border-radius:50% 50% 50% 50%;
+  text-align:center;
+  pointer-events:none;
+  animation:balloonFloat 5s forwards;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  user-select:none;
+}
+@keyframes balloonFloat{
+  0%{transform:translateY(0) scale(0.5);opacity:0;}
+  30%{opacity:1;transform:translateY(-50px) scale(1);}
+  70%{transform:translateY(-120px) scale(1.05);}
+  100%{transform:translateY(-140px) scale(1);}
+}
 /* ----------- CONFETTI ----------- */
 .confetti{position:absolute;width:10px;height:10px;background:radial-gradient(circle,#ff4d6d,#ffb6c1);pointer-events:none;opacity:0.8;animation:confetti-fall linear forwards;}
 @keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
+.final{font-size:2.9rem;}
 </style>
 </head>
 <body>
@@ -62,8 +81,8 @@ button:hover{transform:scale(1.08);}
 </div>
 
 <div class="screen">
-  <h1 class="final">You chose me ❤️</h1>
-  <p>And TEST time.</p>
+  <h1 class="final">TESTING ❤️</h1>
+  <p>And I’ll choose you every time.</p>
 </div>
 
 <!-- Music -->
@@ -110,26 +129,27 @@ function spawnHeart(type='pre'){
   setTimeout(()=>heart.remove(), 8000);
 }
 
-/* --------- POP HEART --------- */
+/* --------- POP HEART (creates balloon) --------- */
 function popHeart(e, heart){
-  heart.classList.add('pop');
-  const msg = document.createElement('div');
-  msg.className = 'message';
-  msg.innerText = messages[Math.floor(Math.random()*messages.length)];
-  msg.style.left = e.clientX + 'px';
-  msg.style.top = e.clientY + 'px';
-  document.body.appendChild(msg);
-  setTimeout(()=>{heart.remove(); msg.remove();}, 800);
+  heart.remove(); // remove original heart
+
+  // Create balloon heart message
+  const balloon = document.createElement('div');
+  balloon.className='balloon';
+  balloon.innerText=messages[Math.floor(Math.random()*messages.length)];
+  balloon.style.left = e.clientX + 'px';
+  balloon.style.top = e.clientY + 'px';
+  document.body.appendChild(balloon);
+  setTimeout(()=>balloon.remove(),5000);
 }
 
 /* --------- SLOW FLOW PRE-YES HEARTS --------- */
-let calmInterval = setInterval(()=>spawnHeart('pre'), 400); // faster flow
+let calmInterval = setInterval(()=>spawnHeart('pre'), 400);
 
 /* --------- CELEBRATE AFTER YES --------- */
 function celebrate(){
   clearInterval(calmInterval); // stop pre hearts
 
-  // play music
   const audio = document.getElementById('music');
   audio.currentTime = 0;
   audio.play();
@@ -140,23 +160,23 @@ function celebrate(){
   // continuous flood of bold hearts
   intenseInterval = setInterval(()=>{for(let i=0;i<20;i++) spawnHeart('post');}, 120);
 
-  // spawn random easter hearts occasionally
+  // random easter hearts
   setInterval(()=>{if(Math.random()<0.3) spawnHeart('easter');}, 800);
 
-  // click anywhere for secret message Easter eggs
+  // random background secret messages
   document.body.addEventListener('click', (e)=>{
     if(Math.random()<0.05){
       const secret = document.createElement('div');
-      secret.className='message';
+      secret.className='balloon';
       secret.innerText = "You're amazing 💖";
       secret.style.left = e.clientX + 'px';
       secret.style.top = e.clientY + 'px';
       document.body.appendChild(secret);
-      setTimeout(()=>secret.remove(),1200);
+      setTimeout(()=>secret.remove(),3000);
     }
   });
 
-  // small confetti bursts
+  // confetti bursts
   setInterval(()=>{
     const confetti = document.createElement('div');
     confetti.className='confetti';
