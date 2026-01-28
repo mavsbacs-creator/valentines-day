@@ -50,9 +50,12 @@ button {
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(255,77,109,0.6);
   transition: transform 0.3s ease;
+  position: relative;
+  z-index: 10; /* ensures button is clickable above hearts/message */
 }
 
 button:hover { transform: scale(1.08); }
+
 .pulse { animation: pulse 1.4s infinite; }
 @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
 
@@ -84,13 +87,13 @@ button:hover { transform: scale(1.08); }
   text-align: center;
   opacity: 0;
   transition: all 0.8s ease;
-  z-index: 3;
+  z-index: 5;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  pointer-events: none; /* ensures buttons remain clickable */
 }
-#message.show {
-  opacity: 1;
-  transform: translate(-50%, -50%);
-}
+
+/* Ensure YouTube iframe doesn't block clicks */
+#ytplayer { pointer-events: none; }
 </style>
 </head>
 
@@ -140,7 +143,7 @@ function next() {
   screens[index].classList.add('active');
 }
 
-/* Heart spawn */
+/* Floating hearts */
 function spawnHeart() {
   const heart = document.createElement('div');
   heart.className = 'heart';
@@ -152,19 +155,20 @@ function spawnHeart() {
   setTimeout(() => heart.remove(), 4000);
 }
 
-let heartInterval;
+/* Slow hearts before Yes */
+let heartInterval = setInterval(spawnHeart, 900);
 
-/* Celebrate: show message, start music, spawn hearts */
 function celebrate() {
-  // Show heartfelt message
+  // Show message
   const message = document.getElementById('message');
   message.classList.add('show');
 
-  // Start YouTube music reliably
+  // Play music reliably
   const yt = document.getElementById('ytplayer');
   yt.src += "&autoplay=1";
 
-  // Spawn gentle floating hearts repeatedly
+  // Faster floating hearts
+  clearInterval(heartInterval);
   heartInterval = setInterval(spawnHeart, 250);
 
   next();
