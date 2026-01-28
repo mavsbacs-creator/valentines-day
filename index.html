@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine Surprise ❤️</title>
+<title>Ultimate Valentine ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 /* ----------- GENERAL ----------- */
@@ -16,29 +16,35 @@ button{margin-top:35px;padding:16px 42px;border:none;border-radius:50px;backgrou
 button:hover{transform:scale(1.08);}
 .pulse{animation:pulse 1.4s infinite;}
 @keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+
 /* ----------- HEARTS ----------- */
 .hearts{position:absolute;inset:0;pointer-events:auto;overflow:hidden;z-index:2;}
 .heart{position:absolute;cursor:pointer;animation:float linear forwards;user-select:none;}
 .heart.pre{color:rgba(255,150,170,0.6);font-size:18px;opacity:0.6;}
 .heart.post{color:rgba(255,50,90,0.9);opacity:0.9;}
 .heart.easter{color:#ffd700;font-size:50px;opacity:1;animation:float 2s linear forwards;}
-/* FLOAT ANIMATION */
 @keyframes float{0%{transform:translateY(110vh) scale(0.8);opacity:0;}10%{opacity:1;}100%{transform:translateY(-10vh) scale(1.5);opacity:0;}}
 .pop{animation:pop 0.35s ease forwards;}
 @keyframes pop{0%{transform:scale(1);opacity:1;}60%{transform:scale(2);opacity:0.9;}100%{transform:scale(0);opacity:0;}}
+
 /* ----------- BALLOON HEART MESSAGE ----------- */
 .balloon{
   position:absolute;
-  font-size:28px;
-  background:linear-gradient(135deg,#ff4d6d,#ffb6c1);
+  font-size:40px;
+  background:rgba(255,77,109,0.95);
   color:white;
-  padding:12px 20px;
-  border-radius:50% 50% 50% 50%;
+  padding:16px 24px;
+  border-radius:50%;
   text-align:center;
   pointer-events:none;
   animation:balloonFloat 5s forwards;
-  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  border:3px solid white;
   user-select:none;
+}
+.balloon:hover{
+  transform:scale(1.1);
+  box-shadow:0 8px 22px rgba(0,0,0,0.45);
 }
 @keyframes balloonFloat{
   0%{transform:translateY(0) scale(0.5);opacity:0;}
@@ -46,6 +52,7 @@ button:hover{transform:scale(1.08);}
   70%{transform:translateY(-120px) scale(1.05);}
   100%{transform:translateY(-140px) scale(1);}
 }
+
 /* ----------- CONFETTI ----------- */
 .confetti{position:absolute;width:10px;height:10px;background:radial-gradient(circle,#ff4d6d,#ffb6c1);pointer-events:none;opacity:0.8;animation:confetti-fall linear forwards;}
 @keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
@@ -81,7 +88,7 @@ button:hover{transform:scale(1.08);}
 </div>
 
 <div class="screen">
-  <h1 class="final">TESTING ❤️</h1>
+  <h1 class="final">You chose me ❤️</h1>
   <p>And I’ll choose you every time.</p>
 </div>
 
@@ -129,16 +136,19 @@ function spawnHeart(type='pre'){
   setTimeout(()=>heart.remove(), 8000);
 }
 
-/* --------- POP HEART (creates balloon) --------- */
+/* --------- POP HEART (balloon message) --------- */
 function popHeart(e, heart){
-  heart.remove(); // remove original heart
+  heart.remove(); // remove clicked heart
 
-  // Create balloon heart message
+  // Create balloon message heart
   const balloon = document.createElement('div');
   balloon.className='balloon';
-  balloon.innerText=messages[Math.floor(Math.random()*messages.length)];
-  balloon.style.left = e.clientX + 'px';
-  balloon.style.top = e.clientY + 'px';
+  balloon.innerText = messages[Math.floor(Math.random()*messages.length)];
+  
+  // Offset so it's easier to see
+  balloon.style.left = (e.clientX - 50) + 'px';
+  balloon.style.top = (e.clientY - 80) + 'px';
+  
   document.body.appendChild(balloon);
   setTimeout(()=>balloon.remove(),5000);
 }
@@ -160,17 +170,17 @@ function celebrate(){
   // continuous flood of bold hearts
   intenseInterval = setInterval(()=>{for(let i=0;i<20;i++) spawnHeart('post');}, 120);
 
-  // random easter hearts
+  // random golden easter hearts
   setInterval(()=>{if(Math.random()<0.3) spawnHeart('easter');}, 800);
 
-  // random background secret messages
+  // click background for hidden balloon messages
   document.body.addEventListener('click', (e)=>{
     if(Math.random()<0.05){
       const secret = document.createElement('div');
       secret.className='balloon';
       secret.innerText = "You're amazing 💖";
-      secret.style.left = e.clientX + 'px';
-      secret.style.top = e.clientY + 'px';
+      secret.style.left = (e.clientX - 50) + 'px';
+      secret.style.top = (e.clientY - 80) + 'px';
       document.body.appendChild(secret);
       setTimeout(()=>secret.remove(),3000);
     }
