@@ -53,7 +53,7 @@ p {
   line-height: 1.7;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button {
   margin-top: 35px;
   padding: 16px 42px;
@@ -85,27 +85,55 @@ button:hover {
 .hearts {
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  pointer-events: auto;
   overflow: hidden;
   z-index: 2;
 }
 
 .heart {
   position: absolute;
-  color: rgba(255, 77, 109, 0.8);
+  cursor: pointer;
   animation: float linear forwards;
+  user-select: none;
 }
 
 @keyframes float {
   from {
-    transform: translateY(110vh) scale(0.7);
+    transform: translateY(110vh) scale(0.8);
     opacity: 0;
   }
   10% { opacity: 1; }
   to {
-    transform: translateY(-10vh) scale(1.8);
+    transform: translateY(-10vh) scale(1.6);
     opacity: 0;
   }
+}
+
+/* POP ANIMATION */
+.pop {
+  animation: pop 0.4s ease forwards;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); opacity: 1; }
+  60% { transform: scale(1.8); opacity: 0.9; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* MESSAGE BURST */
+.message {
+  position: absolute;
+  color: #b03060;
+  font-size: 1.4rem;
+  font-weight: 600;
+  animation: message 1.6s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes message {
+  0% { opacity: 0; transform: translateY(0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px); }
 }
 
 .final {
@@ -116,7 +144,7 @@ button:hover {
 
 <body>
 
-<!-- Music (Youth – Daughter via YouTube) -->
+<!-- MUSIC -->
 <iframe
   id="music"
   src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
@@ -135,13 +163,13 @@ button:hover {
 
 <div class="screen">
   <h1>A little truth</h1>
-  <p>You make everything feel softer, warmer, and more meaningful.</p>
+  <p>You make everything feel warmer.</p>
   <button onclick="next()">Next</button>
 </div>
 
 <div class="screen">
   <h1>One more thing</h1>
-  <p>I don’t just like being with you — I feel right with you.</p>
+  <p>I don’t just like you — I really care.</p>
   <button onclick="next()">Okay ❤️</button>
 </div>
 
@@ -152,38 +180,75 @@ button:hover {
 
 <div class="screen">
   <h1 class="final">You chose me ❤️</h1>
-  <p>And I’ll choose you, every time.</p>
+  <p>And I’ll choose you every time.</p>
 </div>
 
 <script>
 const screens = document.querySelectorAll('.screen');
+const heartsContainer = document.getElementById('hearts');
 let index = 0;
 let intense = false;
 
-/* SCREEN FLOW */
+const messages = [
+  "I love you ❤️",
+  "You're beautiful",
+  "You mean so much to me",
+  "You make me smile",
+  "I'm lucky to have you",
+  "You’re amazing",
+  "My favorite person"
+];
+
 function next() {
   screens[index].classList.remove('active');
   index++;
   screens[index].classList.add('active');
 }
 
-/* HEART SPAWN */
+/* CREATE HEART */
 function spawnHeart(big = false) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
+
   heart.style.left = Math.random() * 100 + 'vw';
   heart.style.fontSize = big
-    ? 42 + Math.random() * 42 + 'px'
-    : 16 + Math.random() * 18 + 'px';
+    ? 40 + Math.random() * 40 + 'px'
+    : 22 + Math.random() * 20 + 'px';
+
+  heart.style.color = big
+    ? 'rgba(255, 60, 100, 0.9)'
+    : 'rgba(255, 90, 130, 0.75)';
+
   heart.style.animationDuration = big
     ? 2 + Math.random() * 2 + 's'
-    : 7 + Math.random() * 4 + 's';
-  document.getElementById('hearts').appendChild(heart);
-  setTimeout(() => heart.remove(), 8000);
+    : 6 + Math.random() * 4 + 's';
+
+  heart.onclick = (e) => popHeart(e, heart);
+
+  heartsContainer.appendChild(heart);
+  setTimeout(() => heart.remove(), 9000);
 }
 
-/* SLOW HEARTS BEFORE YES */
+/* POP HEART */
+function popHeart(e, heart) {
+  heart.classList.add('pop');
+
+  const msg = document.createElement('div');
+  msg.className = 'message';
+  msg.innerText = messages[Math.floor(Math.random() * messages.length)];
+  msg.style.left = e.clientX + 'px';
+  msg.style.top = e.clientY + 'px';
+
+  document.body.appendChild(msg);
+
+  setTimeout(() => {
+    heart.remove();
+    msg.remove();
+  }, 800);
+}
+
+/* CALM HEARTS */
 setInterval(() => {
   if (!intense) spawnHeart(false);
 }, 900);
@@ -192,15 +257,13 @@ setInterval(() => {
 function celebrate() {
   intense = true;
 
-  // start music
   const iframe = document.getElementById('music');
   iframe.src += "&autoplay=1";
 
-  // HEART TSUNAMI
-  for (let i = 0; i < 250; i++) spawnHeart(true);
+  for (let i = 0; i < 220; i++) spawnHeart(true);
 
   setInterval(() => {
-    for (let i = 0; i < 14; i++) spawnHeart(true);
+    for (let i = 0; i < 12; i++) spawnHeart(true);
   }, 120);
 
   next();
