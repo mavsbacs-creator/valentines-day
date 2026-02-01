@@ -145,22 +145,20 @@ function celebrate(){
   scrollText.style.opacity=1;
 
   let pos=-60;
-  let continueShown = false; // flag for fading in continue section
+  let continueShown = false;
 
   function scroll(){
     pos+=0.08;
     scrollText.style.bottom=pos+'%';
 
-    // fade in continue section halfway
-    if(!continueShown && pos >= 0){ // halfway point
+    // fade in continue section when scroll is halfway (in-between speed)
+    if(!continueShown && pos >= -10){ // slightly after halfway
       continueShown = true;
       const continueScreen = document.getElementById('continueScreen');
-      continueScreen.style.opacity = 0;
       continueScreen.classList.add('active');
-      // smooth fade in
       let op = 0;
       const fadeInterval = setInterval(()=>{
-        op += 0.02;
+        op += 0.01; // slower fade
         continueScreen.style.opacity = op;
         if(op>=1) clearInterval(fadeInterval);
       }, 16);
