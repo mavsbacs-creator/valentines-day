@@ -4,18 +4,19 @@
 <meta charset="UTF-8">
 <title>For You ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-* { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+* { box-sizing:border-box; font-family:'Segoe UI', system-ui, sans-serif; }
 body { margin:0; height:100vh; background: linear-gradient(135deg,#ffe6ed,#ffd1dc); overflow:hidden; }
 
-.screen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:30px; opacity:0; pointer-events:none; transform:translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; z-index:3; }
+.screen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
+         padding:30px; opacity:0; pointer-events:none; transform:translateY(40px); transition:opacity 0.8s ease, transform 0.8s ease; z-index:3; }
 .screen.active { opacity:1; pointer-events:auto; transform:translateY(0); }
 
 h1 { font-size:2.6rem; color:#b03060; }
 p { font-size:1.15rem; max-width:520px; color:#444; line-height:1.7; }
 
-button { margin-top:35px; padding:16px 42px; border:none; border-radius:50px; background:#ff4d6d; color:white; font-size:1.1rem; cursor:pointer; box-shadow:0 18px 45px rgba(255,77,109,0.6); transition: transform 0.3s ease; }
+button { margin-top:35px; padding:16px 42px; border:none; border-radius:50px; background:#ff4d6d; color:white; font-size:1.1rem;
+         cursor:pointer; box-shadow:0 18px 45px rgba(255,77,109,0.6); transition: transform 0.3s ease; }
 button:hover { transform:scale(1.08); }
 .pulse { animation:pulse 1.4s infinite; }
 @keyframes pulse { 0%{scale:1}50%{scale:1.15}100%{scale:1} }
@@ -31,7 +32,6 @@ button:hover { transform:scale(1.08); }
 #continueBlock { margin-top:140px; padding-bottom:120px; }
 </style>
 </head>
-
 <body>
 
 <div id="hearts"></div>
@@ -61,26 +61,46 @@ button:hover { transform:scale(1.08); }
 
 <div id="scrollContainer">
   <div id="scrollContent">
-    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are.
-    <br><br>
-    I know the distance isn’t ideal, but it just makes me more excited for the day we don’t have to count miles anymore.
-    <br><br>
-    I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕
-    <div id="continueBlock">
-      <h1>One last thing ❤️</h1>
-      <button onclick="goPandora()">Continue</button>
-    </div>
+Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are.
+<br><br>
+I know the distance isn’t ideal, but it just makes me more excited for the day we don’t have to count miles anymore.
+<br><br>
+I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕
+<div id="continueBlock">
+  <h1>One last thing ❤️</h1>
+  <button onclick="goPandora()">Continue</button>
+</div>
   </div>
 </div>
 
-<!-- Music iframe -->
-<iframe id="ytplayer" width="0" height="0" src="https://www.youtube.com/embed/Ol5kB1i_P0o?enablejsapi=1&autoplay=1&mute=1" allow="autoplay"></iframe>
+<!-- YouTube API -->
+<div id="player"></div>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
+let player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '0',
+    width: '0',
+    videoId: 'Ol5kB1i_P0o', // Chapel Haze by Luke Rob
+    playerVars: { autoplay: 0, controls: 0, mute: 1 },
+    events: { 'onReady': onPlayerReady }
+  });
+}
+function onPlayerReady(event){ /* ready */ }
+
+// Screens
 const screens=document.querySelectorAll('.screen');
 let index=0;
 let intense=false;
 let heartInterval;
+
+function next(){
+  screens[index].classList.remove('active');
+  index++;
+  screens[index].classList.add('active');
+}
 
 // Hearts
 function spawnHeart(big=false){
@@ -95,20 +115,9 @@ function spawnHeart(big=false){
 }
 heartInterval=setInterval(()=>spawnHeart(false),700);
 
-// Screens
-function next(){
-  screens[index].classList.remove('active');
-  index++;
-  screens[index].classList.add('active');
-}
-
-// Celebrate
+// Celebrate Yes
 function celebrate(){
   intense=true;
-
-  const yt=document.getElementById('ytplayer');
-  yt.src='https://www.youtube.com/embed/Ol5kB1i_P0o?enablejsapi=1&autoplay=1';
-
   clearInterval(heartInterval);
   heartInterval=setInterval(()=>spawnHeart(true),120);
 
@@ -118,15 +127,18 @@ function celebrate(){
 
   next();
 
+  // Play music
+  if(player) { player.unMute(); player.playVideo(); }
+
+  // Show scroll content
   setTimeout(()=>{
     const scrollContainer=document.getElementById('scrollContainer');
     scrollContainer.style.display='block';
-    const content=document.getElementById('scrollContent');
-    content.style.opacity=1;
-  },1200);
+    document.getElementById('scrollContent').style.opacity=1;
+  },500);
 }
 
-// Continue
+// Continue button
 function goPandora(){ window.open("https://us.pandora.net","_blank"); }
 </script>
 
