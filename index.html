@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>For TESTING ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -167,10 +167,6 @@ button:hover {
   opacity: 1;
   pointer-events: auto;
 }
-
-#ytplayer {
-  pointer-events: none;
-}
 </style>
 </head>
 
@@ -214,19 +210,18 @@ button:hover {
   </div>
 </div>
 
-<!-- FINAL CONTINUE -->
 <div id="continueScreen">
   <h1>One last thing ❤️</h1>
   <p>I thought you might like this.</p>
   <button onclick="goPandora()">Continue</button>
 </div>
 
-<!-- MUSIC: Chapel Haze – Luke Rob -->
+<!-- MUSIC -->
 <iframe
   id="ytplayer"
   width="0"
   height="0"
-  src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1"
+  src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&mute=1"
   allow="autoplay">
 </iframe>
 
@@ -254,6 +249,7 @@ function spawnHeart(big = false) {
   setTimeout(() => heart.remove(), 8000);
 }
 
+/* SLOW HEARTS BEFORE YES */
 heartInterval = setInterval(() => {
   if (!intense) spawnHeart(false);
 }, 800);
@@ -262,8 +258,11 @@ heartInterval = setInterval(() => {
 function celebrate() {
   intense = true;
 
+  // Replace iframe to force music to play
   const yt = document.getElementById('ytplayer');
-  yt.src = yt.src + "&autoplay=1";
+  const newYt = yt.cloneNode(true);
+  newYt.src = "https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&autoplay=1&mute=0";
+  yt.parentNode.replaceChild(newYt, yt);
 
   clearInterval(heartInterval);
   heartInterval = setInterval(() => {
@@ -289,14 +288,12 @@ function celebrate() {
   next();
 }
 
-/* SHOW CONTINUE */
 function showContinue() {
   setTimeout(() => {
     document.getElementById('continueScreen').classList.add('active');
   }, 1500);
 }
 
-/* GO TO PANDORA */
 function goPandora() {
   window.open("https://us.pandora.net", "_blank");
 }
