@@ -53,7 +53,7 @@ p {
   line-height: 1.7;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button {
   margin-top: 35px;
   padding: 16px 42px;
@@ -109,7 +109,7 @@ button:hover {
   }
 }
 
-/* GOOD CHOICE TEXT (plain, matches site) */
+/* GOOD CHOICE */
 #goodChoice {
   position: absolute;
   top: 42%;
@@ -150,7 +150,21 @@ button:hover {
   transition: opacity 2s ease;
 }
 
-/* Hide iframe interaction */
+/* FINAL END MESSAGE */
+#finalMessage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4rem;
+  color: #b03060;
+  opacity: 0;
+  transition: opacity 3s ease;
+  z-index: 6;
+  pointer-events: none;
+}
+
 #ytplayer {
   pointer-events: none;
 }
@@ -159,7 +173,6 @@ button:hover {
 
 <body>
 
-<!-- HEARTS -->
 <div id="hearts"></div>
 
 <!-- SCREENS -->
@@ -186,10 +199,8 @@ button:hover {
   <button class="pulse" onclick="celebrate()">Yes</button>
 </div>
 
-<!-- GOOD CHOICE -->
 <div id="goodChoice">Good choice ❤️</div>
 
-<!-- SCROLLING PARAGRAPH -->
 <div id="scrollContainer">
   <div id="scrollText">
     Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are.
@@ -200,12 +211,14 @@ button:hover {
   </div>
 </div>
 
-<!-- MUSIC -->
+<div id="finalMessage">I can’t wait to see you ❤️</div>
+
+<!-- MUSIC: Chapel Haze – Luke Rob -->
 <iframe
   id="ytplayer"
   width="0"
   height="0"
-  src="https://www.youtube.com/embed/VEpMj-tqixs?enablejsapi=1"
+  src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1"
   allow="autoplay">
 </iframe>
 
@@ -221,23 +234,18 @@ function next() {
   screens[index].classList.add('active');
 }
 
-/* HEART SPAWN */
+/* HEARTS */
 function spawnHeart(big = false) {
   const heart = document.createElement('div');
   heart.className = 'heart';
   heart.innerText = '♥';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = big
-    ? 40 + Math.random() * 35 + 'px'
-    : 18 + Math.random() * 16 + 'px';
-  heart.style.animationDuration = big
-    ? 2 + Math.random() * 2 + 's'
-    : 7 + Math.random() * 4 + 's';
+  heart.style.fontSize = big ? 42 + Math.random()*30 + 'px' : 18 + Math.random()*14 + 'px';
+  heart.style.animationDuration = big ? 2 + Math.random()*2 + 's' : 7 + Math.random()*4 + 's';
   document.getElementById('hearts').appendChild(heart);
   setTimeout(() => heart.remove(), 8000);
 }
 
-/* Slow hearts at start */
 heartInterval = setInterval(() => {
   if (!intense) spawnHeart(false);
 }, 800);
@@ -246,22 +254,17 @@ heartInterval = setInterval(() => {
 function celebrate() {
   intense = true;
 
-  // Start music
-  const yt = document.getElementById('ytplayer');
-  yt.src += "&autoplay=1";
+  document.getElementById('ytplayer').src += "&autoplay=1";
 
-  // Increase hearts
   clearInterval(heartInterval);
   heartInterval = setInterval(() => {
     for (let i = 0; i < 3; i++) spawnHeart(true);
   }, 120);
 
-  // Good choice text
   const good = document.getElementById('goodChoice');
   good.style.opacity = 1;
   setTimeout(() => good.style.opacity = 0, 2200);
 
-  // Scroll text
   const scrollText = document.getElementById('scrollText');
   scrollText.style.opacity = 1;
 
@@ -270,10 +273,18 @@ function celebrate() {
     pos += 0.06;
     scrollText.style.bottom = pos + '%';
     if (pos < 120) requestAnimationFrame(scroll);
+    else finish();
   }
   scroll();
 
   next();
+}
+
+/* ENDING */
+function finish() {
+  setTimeout(() => {
+    document.getElementById('finalMessage').style.opacity = 1;
+  }, 3000);
 }
 </script>
 
