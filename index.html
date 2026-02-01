@@ -165,10 +165,15 @@ button:hover { transform: scale(1.08); }
   <button onclick="goPandora()">Continue</button>
 </div>
 
-<!-- SELF-CONTAINED AUDIO (tiny placeholder) -->
-<audio id="music">
-  <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAA..." type="audio/mp3">
-</audio>
+<!-- MUSIC: Chapel Haze – Luke Rob (YouTube embed) -->
+<iframe
+  id="ytplayer"
+  width="0"
+  height="0"
+  src="https://www.youtube.com/embed/0qSkzkVx1L0?enablejsapi=1"
+  allow="autoplay"
+  style="display:none">
+</iframe>
 
 <script>
 const screens = document.querySelectorAll('.screen');
@@ -201,9 +206,9 @@ heartInterval = setInterval(()=>{ if(!intense) spawnHeart(false); },800);
 function celebrate(){
   intense=true;
 
-  // PLAY SELF-CONTAINED AUDIO
-  const music = document.getElementById('music');
-  music.play().catch(e => console.log("Autoplay blocked: user clicked!", e));
+  // PLAY YOUTUBE MUSIC
+  const yt = document.getElementById('ytplayer');
+  yt.src += "&autoplay=1";
 
   clearInterval(heartInterval);
   heartInterval = setInterval(()=>{ for(let i=0;i<3;i++) spawnHeart(true); },120);
