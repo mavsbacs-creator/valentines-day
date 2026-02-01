@@ -35,7 +35,7 @@ button:hover { transform:scale(1.08); }
 #scrollText { position:absolute; bottom:-60%; max-width:700px; text-align:center; font-size:1.6rem; line-height:2; color:#b03060; opacity:0; }
 
 /* FINAL CONTINUE */
-#continueScreen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; transition:opacity 1.5s ease; z-index:6; }
+#continueScreen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; transition:opacity 2s ease; z-index:6; }
 #continueScreen.active { opacity:1; pointer-events:auto; }
 
 /* BUTTON CONTAINER FOR YES/NO */
@@ -151,14 +151,14 @@ function celebrate(){
     pos+=0.08;
     scrollText.style.bottom=pos+'%';
 
-    // fade in continue section when scroll is halfway (in-between speed)
-    if(!continueShown && pos >= -10){ // slightly after halfway
+    // trigger continue when last lines almost leaving screen
+    if(!continueShown && pos >= 85){ // near the top
       continueShown = true;
       const continueScreen = document.getElementById('continueScreen');
       continueScreen.classList.add('active');
       let op = 0;
       const fadeInterval = setInterval(()=>{
-        op += 0.01; // slower fade
+        op += 0.005; // slow gradual fade
         continueScreen.style.opacity = op;
         if(op>=1) clearInterval(fadeInterval);
       }, 16);
