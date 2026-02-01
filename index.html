@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>For Isabelle Finnegan❤️</title> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -37,6 +37,9 @@ button:hover { transform:scale(1.08); }
 /* FINAL CONTINUE */
 #continueScreen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; transition:opacity 1.5s ease; z-index:6; }
 #continueScreen.active { opacity:1; pointer-events:auto; }
+
+/* NO BUTTON */
+#noBtn { margin-top:15px; background:#aaa; color:white; position:relative; transition: all 0.3s ease; }
 </style>
 </head>
 
@@ -66,13 +69,14 @@ button:hover { transform:scale(1.08); }
 <div class="screen">
   <h1>Will you be my Valentine? 💘</h1>
   <button class="pulse" onclick="celebrate()">Yes</button>
+  <button id="noBtn">No</button>
 </div>
 
 <div id="goodChoice">Good choice ❤️</div>
 
 <div id="scrollContainer">
   <div id="scrollText">
-    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are. I know the distance isn’t ideal, but honestly, it just makes me even more excited for the day we don’t have to count miles anymore. The best part is knowing this won’t last forever — it won’t be long until the waiting is over and we can finally be together without a screen in between us. Until then, I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. Just know that you mean so much to me, and I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕
+    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are. I know the distance isn’t ideal, but honestly, it just makes me even more excited for the day we don’t have to count miles anymore. The best part is knowing this won’t last forever it won’t be long until the waiting is over and we can finally be together without a screen in between us. Until then, I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. Just know that you mean so much to me, and I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕 
   </div>
 </div>
 
@@ -87,7 +91,7 @@ button:hover { transform:scale(1.08); }
   id="ytplayer"
   width="0"
   height="0"
-  src="https://www.youtube.com/embed/bp-JWR2R8LE?enablejsapi=1"
+  src="https://www.youtube.com/embed/bp-JWR2R8LE?enablejsapi=1&autoplay=1&mute=1"
   allow="autoplay"
   style="display:none">
 </iframe>
@@ -125,7 +129,7 @@ function celebrate(){
 
   // PLAY YOUTUBE MUSIC
   const yt = document.getElementById('ytplayer');
-  yt.src += "&autoplay=1";
+  yt.src = yt.src.replace("&mute=1","&mute=0");
 
   clearInterval(heartInterval);
   heartInterval = setInterval(()=>{ for(let i=0;i<3;i++) spawnHeart(true); },120);
@@ -156,6 +160,17 @@ function showContinue(){
 function goPandora(){
   window.open("https://us.pandora.net","_blank");
 }
+
+/* NO BUTTON DODGE */
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mousemove', (e)=>{
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+  const randomX = Math.random()*maxX;
+  const randomY = Math.random()*maxY;
+  noBtn.style.left = randomX + 'px';
+  noBtn.style.top = randomY + 'px';
+});
 </script>
 
 </body>
