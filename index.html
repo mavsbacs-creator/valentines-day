@@ -9,21 +9,13 @@
 * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
 body { margin:0; height:100vh; background: linear-gradient(135deg,#ffe6ed,#ffd1dc); overflow:hidden; }
 
-.screen {
-  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
-  padding:30px; opacity:0; pointer-events:none; transform:translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; z-index:3;
-}
-
+.screen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:30px; opacity:0; pointer-events:none; transform:translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; z-index:3; }
 .screen.active { opacity:1; pointer-events:auto; transform:translateY(0); }
 
 h1 { font-size:2.6rem; color:#b03060; }
 p { font-size:1.15rem; max-width:520px; color:#444; line-height:1.7; }
 
-button {
-  margin-top:35px; padding:16px 42px; border:none; border-radius:50px; background:#ff4d6d; color:white; font-size:1.1rem;
-  cursor:pointer; box-shadow:0 18px 45px rgba(255,77,109,0.6); transition: transform 0.3s ease;
-}
-
+button { margin-top:35px; padding:16px 42px; border:none; border-radius:50px; background:#ff4d6d; color:white; font-size:1.1rem; cursor:pointer; box-shadow:0 18px 45px rgba(255,77,109,0.6); transition: transform 0.3s ease; }
 button:hover { transform:scale(1.08); }
 .pulse { animation:pulse 1.4s infinite; }
 @keyframes pulse { 0%{scale:1}50%{scale:1.15}100%{scale:1} }
@@ -34,11 +26,12 @@ button:hover { transform:scale(1.08); }
 
 #goodChoice { position:absolute; top:45%; left:50%; transform:translate(-50%,-50%); font-size:3rem; font-weight:bold; color:#b03060; opacity:0; transition:opacity 1s ease; z-index:5; }
 
-#scrollContainer { position:absolute; inset:0; z-index:4; overflow-y:auto; display:none; padding:120px 20px; mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);}
+#scrollContainer { position:absolute; inset:0; z-index:4; overflow-y:auto; display:none; padding:120px 20px; }
 #scrollContent { max-width:720px; margin:auto; text-align:center; font-size:1.6rem; line-height:2; color:#b03060; opacity:0; transition:opacity 1.5s ease;}
 #continueBlock { margin-top:140px; padding-bottom:120px; }
 </style>
 </head>
+
 <body>
 
 <div id="hearts"></div>
@@ -81,11 +74,10 @@ button:hover { transform:scale(1.08); }
 </div>
 
 <!-- Music iframe -->
-<iframe id="ytplayer" width="0" height="0" src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&autoplay=0&mute=1" allow="autoplay"></iframe>
+<iframe id="ytplayer" width="0" height="0" src="https://www.youtube.com/embed/Ol5kB1i_P0o?enablejsapi=1&autoplay=1&mute=1" allow="autoplay"></iframe>
 
 <script>
-// Screens
-const screens = document.querySelectorAll('.screen');
+const screens=document.querySelectorAll('.screen');
 let index=0;
 let intense=false;
 let heartInterval;
@@ -103,32 +95,19 @@ function spawnHeart(big=false){
 }
 heartInterval=setInterval(()=>spawnHeart(false),700);
 
-// Navigation
+// Screens
 function next(){
   screens[index].classList.remove('active');
   index++;
   screens[index].classList.add('active');
 }
 
-// Auto + manual scroll
-let userScrolling=false;
-const scrollContainer=document.getElementById('scrollContainer');
-scrollContainer.addEventListener('scroll',()=>{
-  userScrolling=true;
-  clearTimeout(scrollContainer.t);
-  scrollContainer.t=setTimeout(()=>userScrolling=false,800);
-});
-function startAutoScroll(){
-  return setInterval(()=>{if(!userScrolling) scrollContainer.scrollTop+=0.35},16);
-}
-
-// Celebrate yes click
+// Celebrate
 function celebrate(){
   intense=true;
 
-  // Play music via YouTube API hack
   const yt=document.getElementById('ytplayer');
-  yt.src='https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&autoplay=1';
+  yt.src='https://www.youtube.com/embed/Ol5kB1i_P0o?enablejsapi=1&autoplay=1';
 
   clearInterval(heartInterval);
   heartInterval=setInterval(()=>spawnHeart(true),120);
@@ -139,16 +118,15 @@ function celebrate(){
 
   next();
 
-  // Show scroll content immediately
   setTimeout(()=>{
+    const scrollContainer=document.getElementById('scrollContainer');
     scrollContainer.style.display='block';
     const content=document.getElementById('scrollContent');
     content.style.opacity=1;
-    startAutoScroll();
-  },500);
+  },1200);
 }
 
-// Continue button
+// Continue
 function goPandora(){ window.open("https://us.pandora.net","_blank"); }
 </script>
 
