@@ -145,20 +145,32 @@ function celebrate(){
   scrollText.style.opacity=1;
 
   let pos=-60;
+  let continueShown = false; // flag for fading in continue section
+
   function scroll(){
     pos+=0.08;
     scrollText.style.bottom=pos+'%';
+
+    // fade in continue section halfway
+    if(!continueShown && pos >= 0){ // halfway point
+      continueShown = true;
+      const continueScreen = document.getElementById('continueScreen');
+      continueScreen.style.opacity = 0;
+      continueScreen.classList.add('active');
+      // smooth fade in
+      let op = 0;
+      const fadeInterval = setInterval(()=>{
+        op += 0.02;
+        continueScreen.style.opacity = op;
+        if(op>=1) clearInterval(fadeInterval);
+      }, 16);
+    }
+
     if(pos<120) requestAnimationFrame(scroll);
-    else showContinue(); // <-- appear immediately after scrolling
   }
   scroll();
 
   next();
-}
-
-function showContinue(){
-  // Remove the 1.5s delay so it shows immediately after scroll
-  document.getElementById('continueScreen').classList.add('active');
 }
 
 function goPandora(){
