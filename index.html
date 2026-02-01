@@ -6,167 +6,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-}
-
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #ffe6ed, #ffd1dc);
-  overflow: hidden;
-}
+* { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { margin:0; height:100vh; background: linear-gradient(135deg,#ffe6ed,#ffd1dc); overflow:hidden; }
 
 /* SCREENS */
-.screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 30px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-  z-index: 3;
-}
+.screen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:30px; opacity:0; pointer-events:none; transform:translateY(40px); transition:opacity 0.8s ease, transform 0.8s ease; z-index:3; }
+.screen.active { opacity:1; pointer-events:auto; transform:translateY(0); }
 
-.screen.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-h1 {
-  font-size: 2.6rem;
-  color: #b03060;
-}
-
-p {
-  font-size: 1.15rem;
-  max-width: 520px;
-  color: #444;
-  line-height: 1.7;
-}
+h1 { font-size:2.6rem; color:#b03060; }
+p { font-size:1.15rem; max-width:520px; color:#444; line-height:1.7; }
 
 /* BUTTONS */
-button {
-  margin-top: 35px;
-  padding: 16px 42px;
-  border: none;
-  border-radius: 50px;
-  background: #ff4d6d;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 18px 45px rgba(255, 77, 109, 0.6);
-  transition: transform 0.3s ease;
-  z-index: 10;
-}
-
-button:hover {
-  transform: scale(1.08);
-}
-
-.pulse {
-  animation: pulse 1.4s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
+button { margin-top:35px; padding:16px 42px; border:none; border-radius:50px; background:#ff4d6d; color:white; font-size:1.1rem; cursor:pointer; box-shadow:0 18px 45px rgba(255,77,109,0.6); transition:transform 0.3s ease; z-index:10; }
+button:hover { transform:scale(1.08); }
+.pulse { animation:pulse 1.4s infinite; }
+@keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);} }
 
 /* HEARTS */
-#hearts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.heart {
-  position: absolute;
-  color: rgba(255, 77, 109, 0.85);
-  animation: float linear forwards;
-}
-
-@keyframes float {
-  from {
-    transform: translateY(110vh) scale(0.8);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  to {
-    transform: translateY(-10vh) scale(1.4);
-    opacity: 0;
-  }
-}
+#hearts { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:1; }
+.heart { position:absolute; color:rgba(255,77,109,0.85); animation:float linear forwards; }
+@keyframes float { from { transform:translateY(110vh) scale(0.8); opacity:0; } 10% {opacity:1;} to {transform:translateY(-10vh) scale(1.4); opacity:0;} }
 
 /* GOOD CHOICE */
-#goodChoice {
-  position: absolute;
-  top: 42%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  font-weight: bold;
-  color: #b03060;
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 5;
-  pointer-events: none;
-}
+#goodChoice { position:absolute; top:42%; left:50%; transform:translate(-50%, -50%); font-size:3rem; font-weight:bold; color:#b03060; opacity:0; transition:opacity 1s ease; z-index:5; pointer-events:none; }
 
 /* SCROLLING TEXT */
-#scrollContainer {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  mask-image: linear-gradient(to top, transparent 0%, black 20%, black 80%, transparent 100%);
-}
-
-#scrollText {
-  position: absolute;
-  bottom: -60%;
-  max-width: 700px;
-  text-align: center;
-  font-size: 1.6rem;
-  line-height: 2;
-  color: #b03060;
-  opacity: 0;
-}
+#scrollContainer { position:absolute; inset:0; z-index:4; pointer-events:none; overflow:hidden; display:flex; justify-content:center; align-items:flex-end; mask-image:linear-gradient(to top, transparent 0%, black 20%, black 80%, transparent 100%); }
+#scrollText { position:absolute; bottom:-60%; max-width:700px; text-align:center; font-size:1.6rem; line-height:2; color:#b03060; opacity:0; }
 
 /* FINAL CONTINUE */
-#continueScreen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.5s ease;
-  z-index: 6;
-}
-
-#continueScreen.active {
-  opacity:1;
-  pointer-events:auto;
-}
+#continueScreen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; transition:opacity 1.5s ease; z-index:6; }
+#continueScreen.active { opacity:1; pointer-events:auto; }
 </style>
 </head>
 
@@ -202,7 +72,7 @@ button:hover {
 
 <div id="scrollContainer">
   <div id="scrollText">
-    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile...
+    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are. I know the distance isn’t ideal, but honestly, it just makes me even more excited for the day we don’t have to count miles anymore. The best part is knowing this won’t last forever — it won’t be long until the waiting is over and we can finally be together without a screen in between us. Until then, I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. Just know that you mean so much to me, and I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕
   </div>
 </div>
 
