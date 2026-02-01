@@ -2,45 +2,165 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For Isabelle Finnegan❤️</title> 
+<title>For Isabelle Finnegan ❤️</title> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-body { margin:0; height:100vh; background: linear-gradient(135deg,#ffe6ed,#ffd1dc); overflow:hidden; }
+body {
+  margin:0;
+  height:100vh;
+  background: linear-gradient(135deg,#ffe6ed,#ffd1dc);
+  overflow:hidden;
+}
 
 /* SCREENS */
-.screen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:30px; opacity:0; pointer-events:none; transform:translateY(40px); transition:opacity 0.8s ease, transform 0.8s ease; z-index:3; }
-.screen.active { opacity:1; pointer-events:auto; transform:translateY(0); }
+.screen {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:30px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(40px);
+  transition:opacity 0.8s ease, transform 0.8s ease;
+  z-index:3;
+}
+.screen.active {
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
 
 h1 { font-size:2.6rem; color:#b03060; }
-p { font-size:1.15rem; max-width:520px; color:#444; line-height:1.7; }
+p {
+  font-size:1.15rem;
+  max-width:520px;
+  color:#444;
+  line-height:1.7;
+}
 
 /* BUTTONS */
-button { margin-top:35px; padding:16px 42px; border:none; border-radius:50px; background:#ff4d6d; color:white; font-size:1.1rem; cursor:pointer; box-shadow:0 18px 45px rgba(255,77,109,0.6); transition:transform 0.3s ease, top 0.2s ease, left 0.2s ease; z-index:10; }
+button {
+  margin-top:35px;
+  padding:16px 42px;
+  border:none;
+  background:#ff4d6d;
+  color:white;
+  font-size:1.1rem;
+  cursor:pointer;
+  box-shadow:0 18px 45px rgba(255,77,109,0.6);
+  transition:transform 0.3s ease;
+}
 button:hover { transform:scale(1.08); }
+
 .pulse { animation:pulse 1.4s infinite; }
-@keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);} }
+@keyframes pulse {
+  0%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
 
 /* HEARTS */
-#hearts { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:1; }
-.heart { position:absolute; color:rgba(255,77,109,0.85); animation:float linear forwards; }
-@keyframes float { from { transform:translateY(110vh) scale(0.8); opacity:0; } 10% {opacity:1;} to {transform:translateY(-10vh) scale(1.4); opacity:0;} }
+#hearts {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+.heart {
+  position:absolute;
+  color:rgba(255,77,109,0.85);
+  animation:float linear forwards;
+}
+@keyframes float {
+  from { transform:translateY(110vh) scale(0.8); opacity:0; }
+  10% {opacity:1;}
+  to {transform:translateY(-10vh) scale(1.4); opacity:0;}
+}
 
 /* GOOD CHOICE */
-#goodChoice { position:absolute; top:42%; left:50%; transform:translate(-50%, -50%); font-size:3rem; font-weight:bold; color:#b03060; opacity:0; transition:opacity 1s ease; z-index:5; pointer-events:none; }
+#goodChoice {
+  position:absolute;
+  top:42%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  font-size:3rem;
+  font-weight:bold;
+  color:#b03060;
+  opacity:0;
+  transition:opacity 1s ease;
+  z-index:5;
+  pointer-events:none;
+}
 
 /* SCROLLING TEXT */
-#scrollContainer { position:absolute; inset:0; z-index:4; pointer-events:none; overflow:hidden; display:flex; justify-content:center; align-items:flex-end; mask-image:linear-gradient(to top, transparent 0%, black 20%, black 80%, transparent 100%); }
-#scrollText { position:absolute; bottom:-60%; max-width:700px; text-align:center; font-size:1.6rem; line-height:2; color:#b03060; opacity:0; }
+#scrollContainer {
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  mask-image:linear-gradient(to top, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+#scrollText {
+  position:absolute;
+  bottom:-60%;
+  max-width:700px;
+  text-align:center;
+  font-size:1.6rem;
+  line-height:2;
+  color:#b03060;
+  opacity:0;
+}
 
 /* FINAL CONTINUE */
-#continueScreen { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; transition:opacity 2s ease; z-index:6; }
-#continueScreen.active { opacity:1; pointer-events:auto; }
+#continueScreen {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.5s ease;
+  z-index:6;
+}
+#continueScreen.active {
+  opacity:1;
+  pointer-events:auto;
+}
 
-/* BUTTON CONTAINER FOR YES/NO */
-#buttonContainer { display:flex; gap:40px; margin-top:35px; position:relative; }
-#noBtn { background:#ff4d6d; position:relative; cursor:pointer; }
+/* YES / NO CONTAINER */
+#buttonContainer {
+  display:flex;
+  gap:60px;
+  margin-top:35px;
+  position:relative;
+}
+
+#noBtn {
+  position:absolute;
+  left:140px;
+  background:#ff4d6d;
+}
+
+/* FINAL BUTTONS */
+#finalButtons {
+  display:flex;
+  gap:40px;
+  margin-top:30px;
+}
 </style>
 </head>
 
@@ -48,7 +168,6 @@ button:hover { transform:scale(1.08); }
 
 <div id="hearts"></div>
 
-<!-- SCREENS -->
 <div class="screen active">
   <h1>Hey Belle ❤️</h1>
   <p>I made a little something just for you.</p>
@@ -57,7 +176,7 @@ button:hover { transform:scale(1.08); }
 
 <div class="screen">
   <h1>A little truth</h1>
-  <p>You brighten my day everytime we talk </p>
+  <p>You brighten my day every time we talk.</p>
   <button onclick="next()">Next</button>
 </div>
 
@@ -68,7 +187,7 @@ button:hover { transform:scale(1.08); }
 </div>
 
 <div class="screen">
-  <h1>Isabelle Finnegan will you be my Valentine? 💘</h1>
+  <h1>Isabelle Finnegan, will you be my Valentine? 💘</h1>
   <div id="buttonContainer">
     <button class="pulse" onclick="celebrate()">Yes</button>
     <button id="noBtn">No</button>
@@ -79,25 +198,24 @@ button:hover { transform:scale(1.08); }
 
 <div id="scrollContainer">
   <div id="scrollText">
-    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are. I know the distance isn’t ideal, but honestly, it just makes me even more excited for the day we don’t have to count miles anymore. The best part is knowing this won’t last forever it won’t be long until the waiting is over and we can finally be together without a screen in between us. Until then, I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. Just know that you mean so much to me, and I just love you so freaking much. I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕 
+    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are. I know the distance isn’t ideal, but honestly, it just makes me even more excited for the day we don’t have to count miles anymore. The best part is knowing this won’t last forever — it won’t be long until the waiting is over and we can finally be together without a screen in between us. Until then, I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. Just know that you mean so much to me, and I just love you so freaking much. I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕
   </div>
 </div>
 
 <div id="continueScreen">
   <h1>One last thing ❤️</h1>
-  <p>I thought you might like this.</p>
-  <button onclick="goPandora()">Continue</button>
+  <p>I thought you might like these.</p>
+  <div id="finalButtons">
+    <button onclick="window.open('https://us.pandora.net','_blank')">Surprise 1</button>
+    <button onclick="window.open('https://www.vinted.com/items/8077233518-multi-color-hoodie-5-pack','_blank')">Surprise 2</button>
+  </div>
 </div>
 
-<!-- MUSIC: Chapel Haze – Luke Rob -->
-<iframe
-  id="ytplayer"
-  width="0"
-  height="0"
-  src="https://www.youtube.com/embed/bp-JWR2R8LE?enablejsapi=1&autoplay=1&mute=1"
-  allow="autoplay"
-  style="display:none">
-</iframe>
+<!-- MUSIC -->
+<iframe id="ytplayer" width="0" height="0"
+src="https://www.youtube.com/embed/bp-JWR2R8LE?enablejsapi=1&autoplay=1&mute=1"
+allow="autoplay"
+style="display:none"></iframe>
 
 <script>
 const screens = document.querySelectorAll('.screen');
@@ -117,20 +235,17 @@ function spawnHeart(big=false){
   heart.className='heart';
   heart.innerText='♥';
   heart.style.left=Math.random()*100+'vw';
-  heart.style.fontSize=big?42+Math.random()*30+'px':18+Math.random()*14+'px';
+  heart.style.fontSize=big?40+Math.random()*30+'px':18+Math.random()*14+'px';
   heart.style.animationDuration=big?2+Math.random()*2+'s':7+Math.random()*4+'s';
   document.getElementById('hearts').appendChild(heart);
   setTimeout(()=>heart.remove(),8000);
 }
 
-/* SLOW HEARTS BEFORE YES */
 heartInterval = setInterval(()=>{ if(!intense) spawnHeart(false); },800);
 
-/* YES CLICK */
 function celebrate(){
   intense=true;
 
-  // PLAY YOUTUBE MUSIC
   const yt = document.getElementById('ytplayer');
   yt.src = yt.src.replace("&mute=1","&mute=0");
 
@@ -145,25 +260,16 @@ function celebrate(){
   scrollText.style.opacity=1;
 
   let pos=-60;
-  let continueShown = false;
+  let shown=false;
 
   function scroll(){
     pos+=0.08;
     scrollText.style.bottom=pos+'%';
 
-    // trigger continue when last lines almost leaving screen
-    if(!continueShown && pos >= 85){ // near the top
-      continueShown = true;
-      const continueScreen = document.getElementById('continueScreen');
-      continueScreen.classList.add('active');
-      let op = 0;
-      const fadeInterval = setInterval(()=>{
-        op += 0.005; // slow gradual fade
-        continueScreen.style.opacity = op;
-        if(op>=1) clearInterval(fadeInterval);
-      }, 16);
+    if(!shown && pos>80){
+      shown=true;
+      document.getElementById('continueScreen').classList.add('active');
     }
-
     if(pos<120) requestAnimationFrame(scroll);
   }
   scroll();
@@ -171,26 +277,11 @@ function celebrate(){
   next();
 }
 
-function goPandora(){
-  window.open("https://us.pandora.net","_blank");
-}
-
 /* NO BUTTON DODGE */
 const noBtn = document.getElementById('noBtn');
-noBtn.addEventListener('mousemove', (e)=>{
-  const rect = noBtn.getBoundingClientRect();
-  const offset = 50;
-  let newX = parseFloat(noBtn.offsetLeft);
-  let newY = parseFloat(noBtn.offsetTop);
-
-  if(e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom){
-    if(e.clientX < window.innerWidth/2) newX += offset; else newX -= offset;
-    if(e.clientY < window.innerHeight/2) newY += offset; else newY -= offset;
-    newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
-    newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
-    noBtn.style.left = newX + 'px';
-    noBtn.style.top = newY + 'px';
-  }
+noBtn.addEventListener('mouseenter', ()=>{
+  const move = Math.random() > 0.5 ? 80 : -80;
+  noBtn.style.transform = `translateX(${move}px)`;
 });
 </script>
 
