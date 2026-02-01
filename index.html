@@ -149,7 +149,7 @@ function celebrate(){
     pos+=0.08;
     scrollText.style.bottom=pos+'%';
     if(pos<120) requestAnimationFrame(scroll);
-    else showContinue();
+    else showContinue(); // <-- appear immediately after scrolling
   }
   scroll();
 
@@ -157,32 +157,27 @@ function celebrate(){
 }
 
 function showContinue(){
-  setTimeout(()=>document.getElementById('continueScreen').classList.add('active'),1500);
+  // Remove the 1.5s delay so it shows immediately after scroll
+  document.getElementById('continueScreen').classList.add('active');
 }
 
 function goPandora(){
   window.open("https://us.pandora.net","_blank");
 }
 
-/* NO BUTTON DODGE JUST OUT OF CURSOR */
+/* NO BUTTON DODGE */
 const noBtn = document.getElementById('noBtn');
 noBtn.addEventListener('mousemove', (e)=>{
   const rect = noBtn.getBoundingClientRect();
-  const offset = 50; // pixels to move away
+  const offset = 50;
   let newX = parseFloat(noBtn.offsetLeft);
   let newY = parseFloat(noBtn.offsetTop);
 
-  // Determine direction to move
   if(e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom){
-    if(e.clientX < window.innerWidth/2) newX += offset;
-    else newX -= offset;
-    if(e.clientY < window.innerHeight/2) newY += offset;
-    else newY -= offset;
-
-    // Clamp to screen
+    if(e.clientX < window.innerWidth/2) newX += offset; else newX -= offset;
+    if(e.clientY < window.innerHeight/2) newY += offset; else newY -= offset;
     newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
     newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
-
     noBtn.style.left = newX + 'px';
     noBtn.style.top = newY + 'px';
   }
