@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For TESTING ❤️</title>
+<title>For You ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
 
 body {
   margin: 0;
@@ -32,10 +35,23 @@ body {
   z-index: 3;
 }
 
-.screen.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
 
-h1 { font-size: 2.6rem; color: #b03060; }
-p { font-size: 1.15rem; max-width: 520px; color: #444; line-height: 1.7; }
+h1 {
+  font-size: 2.6rem;
+  color: #b03060;
+}
+
+p {
+  font-size: 1.15rem;
+  max-width: 520px;
+  color: #444;
+  line-height: 1.7;
+}
 
 /* BUTTONS */
 button {
@@ -52,21 +68,53 @@ button {
   z-index: 10;
 }
 
-button:hover { transform: scale(1.08); }
-.pulse { animation: pulse 1.4s infinite; }
-@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+button:hover {
+  transform: scale(1.08);
+}
+
+.pulse {
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
 
 /* HEARTS */
-#hearts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
-.heart { position: absolute; color: rgba(255,77,109,0.85); animation: float linear forwards; }
-@keyframes float { from { transform: translateY(110vh) scale(0.8); opacity:0; } 10% { opacity:1; } to { transform: translateY(-10vh) scale(1.4); opacity:0; } }
+#hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  color: rgba(255, 77, 109, 0.85);
+  animation: float linear forwards;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(110vh) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  to {
+    transform: translateY(-10vh) scale(1.4);
+    opacity: 0;
+  }
+}
 
 /* GOOD CHOICE */
 #goodChoice {
   position: absolute;
   top: 42%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   font-size: 3rem;
   font-weight: bold;
   color: #b03060;
@@ -115,7 +163,10 @@ button:hover { transform: scale(1.08); }
   z-index: 6;
 }
 
-#continueScreen.active { opacity:1; pointer-events:auto; }
+#continueScreen.active {
+  opacity:1;
+  pointer-events:auto;
+}
 </style>
 </head>
 
@@ -151,11 +202,7 @@ button:hover { transform: scale(1.08); }
 
 <div id="scrollContainer">
   <div id="scrollText">
-    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are.
-    <br><br>
-    I know the distance isn’t ideal, but honestly, it just makes me even more excited for the day we don’t have to count miles anymore. The best part is knowing this won’t last forever — it won’t be long until the waiting is over and we can finally be together without a screen in between us.
-    <br><br>
-    Until then, I’m really grateful for you, for your patience, your kindness, and the way you make everything feel easier just by being you. Just know that you mean so much to me, and I can’t wait for all the moments we’ll share when the distance is finally a thing of the past 💕
+    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile...
   </div>
 </div>
 
@@ -165,12 +212,12 @@ button:hover { transform: scale(1.08); }
   <button onclick="goPandora()">Continue</button>
 </div>
 
-<!-- MUSIC: Chapel Haze – Luke Rob (YouTube embed) -->
+<!-- MUSIC: Chapel Haze – Luke Rob -->
 <iframe
   id="ytplayer"
   width="0"
   height="0"
-  src="https://www.youtube.com/embed/0qSkzkVx1L0?enablejsapi=1"
+  src="https://www.youtube.com/embed/bp-JWR2R8LE?enablejsapi=1"
   allow="autoplay"
   style="display:none">
 </iframe>
@@ -217,7 +264,7 @@ function celebrate(){
   good.style.opacity=1;
   setTimeout(()=>good.style.opacity=0,2000);
 
-  const scrollText=document.getElementById('scrollText');
+  const scrollText = document.getElementById('scrollText');
   scrollText.style.opacity=1;
 
   let pos=-60;
@@ -232,12 +279,10 @@ function celebrate(){
   next();
 }
 
-/* SHOW CONTINUE */
 function showContinue(){
   setTimeout(()=>document.getElementById('continueScreen').classList.add('active'),1500);
 }
 
-/* GO TO PANDORA */
 function goPandora(){
   window.open("https://us.pandora.net","_blank");
 }
