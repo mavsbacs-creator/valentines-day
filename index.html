@@ -2,14 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For TESTING ❤️</title>
+<title>For You ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-}
+* { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
 
 body {
   margin: 0;
@@ -35,23 +32,10 @@ body {
   z-index: 3;
 }
 
-.screen.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
+.screen.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-h1 {
-  font-size: 2.6rem;
-  color: #b03060;
-}
-
-p {
-  font-size: 1.15rem;
-  max-width: 520px;
-  color: #444;
-  line-height: 1.7;
-}
+h1 { font-size: 2.6rem; color: #b03060; }
+p { font-size: 1.15rem; max-width: 520px; color: #444; line-height: 1.7; }
 
 /* BUTTONS */
 button {
@@ -68,53 +52,21 @@ button {
   z-index: 10;
 }
 
-button:hover {
-  transform: scale(1.08);
-}
-
-.pulse {
-  animation: pulse 1.4s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
+button:hover { transform: scale(1.08); }
+.pulse { animation: pulse 1.4s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
 
 /* HEARTS */
-#hearts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.heart {
-  position: absolute;
-  color: rgba(255, 77, 109, 0.85);
-  animation: float linear forwards;
-}
-
-@keyframes float {
-  from {
-    transform: translateY(110vh) scale(0.8);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  to {
-    transform: translateY(-10vh) scale(1.4);
-    opacity: 0;
-  }
-}
+#hearts { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+.heart { position: absolute; color: rgba(255,77,109,0.85); animation: float linear forwards; }
+@keyframes float { from { transform: translateY(110vh) scale(0.8); opacity:0; } 10% { opacity:1; } to { transform: translateY(-10vh) scale(1.4); opacity:0; } }
 
 /* GOOD CHOICE */
 #goodChoice {
   position: absolute;
   top: 42%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%,-50%);
   font-size: 3rem;
   font-weight: bold;
   color: #b03060;
@@ -163,10 +115,7 @@ button:hover {
   z-index: 6;
 }
 
-#continueScreen.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+#continueScreen.active { opacity:1; pointer-events:auto; }
 </style>
 </head>
 
@@ -216,14 +165,10 @@ button:hover {
   <button onclick="goPandora()">Continue</button>
 </div>
 
-<!-- MUSIC -->
-<iframe
-  id="ytplayer"
-  width="0"
-  height="0"
-  src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&mute=1"
-  allow="autoplay">
-</iframe>
+<!-- SELF-CONTAINED AUDIO (tiny placeholder) -->
+<audio id="music">
+  <source src="data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAA..." type="audio/mp3">
+</audio>
 
 <script>
 const screens = document.querySelectorAll('.screen');
@@ -238,49 +183,43 @@ function next() {
 }
 
 /* HEARTS */
-function spawnHeart(big = false) {
+function spawnHeart(big=false){
   const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.innerText = '♥';
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = big ? 42 + Math.random()*30 + 'px' : 18 + Math.random()*14 + 'px';
-  heart.style.animationDuration = big ? 2 + Math.random()*2 + 's' : 7 + Math.random()*4 + 's';
+  heart.className='heart';
+  heart.innerText='♥';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.fontSize=big?42+Math.random()*30+'px':18+Math.random()*14+'px';
+  heart.style.animationDuration=big?2+Math.random()*2+'s':7+Math.random()*4+'s';
   document.getElementById('hearts').appendChild(heart);
-  setTimeout(() => heart.remove(), 8000);
+  setTimeout(()=>heart.remove(),8000);
 }
 
 /* SLOW HEARTS BEFORE YES */
-heartInterval = setInterval(() => {
-  if (!intense) spawnHeart(false);
-}, 800);
+heartInterval = setInterval(()=>{ if(!intense) spawnHeart(false); },800);
 
 /* YES CLICK */
-function celebrate() {
-  intense = true;
+function celebrate(){
+  intense=true;
 
-  // Replace iframe to force music to play
-  const yt = document.getElementById('ytplayer');
-  const newYt = yt.cloneNode(true);
-  newYt.src = "https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&autoplay=1&mute=0";
-  yt.parentNode.replaceChild(newYt, yt);
+  // PLAY SELF-CONTAINED AUDIO
+  const music = document.getElementById('music');
+  music.play().catch(e => console.log("Autoplay blocked: user clicked!", e));
 
   clearInterval(heartInterval);
-  heartInterval = setInterval(() => {
-    for (let i = 0; i < 3; i++) spawnHeart(true);
-  }, 120);
+  heartInterval = setInterval(()=>{ for(let i=0;i<3;i++) spawnHeart(true); },120);
 
   const good = document.getElementById('goodChoice');
-  good.style.opacity = 1;
-  setTimeout(() => good.style.opacity = 0, 2000);
+  good.style.opacity=1;
+  setTimeout(()=>good.style.opacity=0,2000);
 
-  const scrollText = document.getElementById('scrollText');
-  scrollText.style.opacity = 1;
+  const scrollText=document.getElementById('scrollText');
+  scrollText.style.opacity=1;
 
-  let pos = -60;
-  function scroll() {
-    pos += 0.08;
-    scrollText.style.bottom = pos + '%';
-    if (pos < 120) requestAnimationFrame(scroll);
+  let pos=-60;
+  function scroll(){
+    pos+=0.08;
+    scrollText.style.bottom=pos+'%';
+    if(pos<120) requestAnimationFrame(scroll);
     else showContinue();
   }
   scroll();
@@ -288,14 +227,14 @@ function celebrate() {
   next();
 }
 
-function showContinue() {
-  setTimeout(() => {
-    document.getElementById('continueScreen').classList.add('active');
-  }, 1500);
+/* SHOW CONTINUE */
+function showContinue(){
+  setTimeout(()=>document.getElementById('continueScreen').classList.add('active'),1500);
 }
 
-function goPandora() {
-  window.open("https://us.pandora.net", "_blank");
+/* GO TO PANDORA */
+function goPandora(){
+  window.open("https://us.pandora.net","_blank");
 }
 </script>
 
