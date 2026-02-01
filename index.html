@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>For TESTING ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
 
 body {
   margin: 0;
@@ -38,10 +41,19 @@ body {
   transform: translateY(0);
 }
 
-h1 { font-size: 2.6rem; color: #b03060; }
-p { font-size: 1.15rem; max-width: 520px; color: #444; line-height: 1.7; }
+h1 {
+  font-size: 2.6rem;
+  color: #b03060;
+}
 
-/* BUTTONS */
+p {
+  font-size: 1.15rem;
+  max-width: 520px;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* BUTTON */
 button {
   margin-top: 35px;
   padding: 16px 42px;
@@ -55,14 +67,45 @@ button {
   transition: transform 0.3s ease;
 }
 
-button:hover { transform: scale(1.08); }
-.pulse { animation: pulse 1.4s infinite; }
-@keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);} }
+button:hover {
+  transform: scale(1.08);
+}
+
+.pulse {
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
 
 /* HEARTS */
-#hearts { position:absolute; inset:0; pointer-events:none; z-index:1; }
-.heart { position:absolute; color:rgba(255,77,109,0.9); animation:float linear forwards; }
-@keyframes float { from{transform:translateY(110vh) scale(0.8);opacity:0;}10%{opacity:1;}to{transform:translateY(-10vh) scale(1.5);opacity:0;} }
+#hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  color: rgba(255, 77, 109, 0.9);
+  animation: float linear forwards;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(110vh) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  to {
+    transform: translateY(-10vh) scale(1.5);
+    opacity: 0;
+  }
+}
 
 /* GOOD CHOICE */
 #goodChoice {
@@ -76,6 +119,33 @@ button:hover { transform: scale(1.08); }
   opacity: 0;
   transition: opacity 1s ease;
   z-index: 5;
+}
+
+/* SCROLL */
+#scrollContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow-y: auto;
+  display: none;
+  padding: 120px 20px;
+  mask-image: linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+#scrollContent {
+  max-width: 720px;
+  margin: auto;
+  text-align: center;
+  font-size: 1.6rem;
+  line-height: 2;
+  color: #b03060;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+#continueBlock {
+  margin-top: 140px;
+  padding-bottom: 120px;
 }
 </style>
 </head>
@@ -108,22 +178,39 @@ button:hover { transform: scale(1.08); }
   <button class="pulse" onclick="celebrate()">Yes</button>
 </div>
 
-<div class="screen">
-  <h1>You chose me ❤️</h1>
-  <p>And I’ll choose you, every time.</p>
-</div>
-
 <div id="goodChoice">Good choice ❤️</div>
 
-<!-- MUSIC -->
-<iframe id="ytplayer" width="0" height="0" src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&autoplay=1&mute=1" allow="autoplay"></iframe>
+<!-- SCROLL -->
+<div id="scrollContainer">
+  <div id="scrollContent">
+    Even though we’re doing this whole long-distance thing right now, you somehow still manage to be one of the best parts of my day. From random messages to late-night calls (especially with you), you always know how to make me smile, no matter how far apart we are.
+    <br><br>
+    I know the distance isn’t ideal, but it just makes me more excited for the day we don’t have to count miles anymore.
+    <br><br>
+    I’m really grateful for you, and I can’t wait for everything ahead of us 💕
+    <div id="continueBlock">
+      <h1>One last thing ❤️</h1>
+      <button onclick="goPandora()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- MUSIC (Chapel Haze – muted autoplay fix) -->
+<iframe
+  id="ytplayer"
+  width="0"
+  height="0"
+  src="https://www.youtube.com/embed/OLAK5uy_mlW?enablejsapi=1&autoplay=1&mute=1"
+  allow="autoplay">
+</iframe>
 
 <script>
 const screens = document.querySelectorAll('.screen');
 let index = 0;
+let intense = false;
 let heartInterval;
 
-/* NAVIGATION */
+/* NAV */
 function next() {
   screens[index].classList.remove('active');
   index++;
@@ -135,30 +222,59 @@ function spawnHeart(big=false) {
   const h = document.createElement('div');
   h.className = 'heart';
   h.textContent = '♥';
-  h.style.left = Math.random() * 100 + 'vw';
-  h.style.fontSize = big ? 42 + Math.random()*24 + 'px' : 18 + Math.random()*12 + 'px';
+  h.style.left = Math.random()*100+'vw';
+  h.style.fontSize = big ? 42+Math.random()*24+'px' : 18+Math.random()*12+'px';
   h.style.animationDuration = big ? '2.5s' : '7s';
-  document.getElementById('hearts').appendChild(h);
+  hearts.appendChild(h);
   setTimeout(()=>h.remove(),8000);
 }
 
-/* SLOW HEARTS BEFORE YES */
 heartInterval = setInterval(()=>spawnHeart(false),700);
 
-/* YES CLICK CELEBRATION */
-function celebrate() {
-  clearInterval(heartInterval);
-  heartInterval = setInterval(()=>spawnHeart(true),120);
+/* SCROLL */
+let autoScroll;
+let userScrolling=false;
+const scrollContainer=document.getElementById('scrollContainer');
 
-  const good = document.getElementById('goodChoice');
-  good.style.opacity = 1;
-  setTimeout(()=>good.style.opacity = 0,2200);
+scrollContainer.addEventListener('scroll',()=>{
+  userScrolling=true;
+  clearTimeout(scrollContainer.t);
+  scrollContainer.t=setTimeout(()=>userScrolling=false,800);
+});
+
+function startAutoScroll(){
+  autoScroll=setInterval(()=>{
+    if(!userScrolling) scrollContainer.scrollTop+=0.35;
+  },16);
+}
+
+/* YES */
+function celebrate(){
+  intense=true;
+
+  // UNMUTE MUSIC
+  const yt=document.getElementById('ytplayer');
+  yt.src = yt.src.replace("mute=1","mute=0");
+
+  clearInterval(heartInterval);
+  heartInterval=setInterval(()=>spawnHeart(true),120);
+
+  const good=document.getElementById('goodChoice');
+  good.style.opacity=1;
+  setTimeout(()=>good.style.opacity=0,2200);
 
   next();
 
-  // PLAY MUSIC
-  const yt = document.getElementById('ytplayer');
-  yt.src = yt.src.replace("mute=1","mute=0");
+  setTimeout(()=>{
+    scrollContainer.style.display='block';
+    document.getElementById('scrollContent').style.opacity=1;
+    startAutoScroll();
+  },1200);
+}
+
+/* CONTINUE */
+function goPandora(){
+  window.open("https://us.pandora.net","_blank");
 }
 </script>
 
